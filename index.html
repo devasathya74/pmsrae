@@ -309,7 +309,8 @@
         }
 
         #mobile-menu.open {
-            max-height: 500px;
+            max-height: 70vh;
+            overflow-y: auto;
             opacity: 1;
         }
 
@@ -521,11 +522,11 @@
                     class="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 object-contain rounded-lg shadow-lg group-hover:scale-110 transition-transform">
                 <div class="flex flex-col min-w-0">
                     <span
-                        class="text-xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold tracking-wide leading-tight pt-1 group-hover:text-secondary transition-colors whitespace-normal sm:truncate break-words">
+                        class="text-base sm:text-xl md:text-2xl lg:text-xl xl:text-2xl font-bold tracking-wide leading-tight pt-1 group-hover:text-secondary transition-colors whitespace-normal break-words">
                         <!-- Font Size Adjustment: Edit classes below -->
                         Police Modern School Raebareli
                     </span>
-                    <span class="text-sm sm:text-lg font-medium opacity-90 whitespace-normal sm:truncate break-words">
+                    <span class="text-xs sm:text-sm font-medium opacity-90 whitespace-normal break-words">
                         <!-- Font Size Adjustment: Edit classes above/below -->
                         25th Vahini PAC, Raebareli
                     </span>
@@ -575,18 +576,24 @@
 
         <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu"
-            class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50 overflow-hidden">
-            <div class="flex flex-col p-4 space-y-4 font-medium text-center">
-                <a href="#home" class="hover:text-primary py-2 border-b border-gray-100">Home</a>
-                <a href="#about" class="hover:text-primary py-2 border-b border-gray-100">About Us</a>
-                <a href="#testimonial" class="hover:text-primary py-2 border-b border-gray-100">Testimonial</a>
-                <a href="#facilities" class="hover:text-primary py-2 border-b border-gray-100">Facilities</a>
-                <a href="#academics" class="hover:text-primary py-2 border-b border-gray-100">Academics</a>
-                <a href="#achievements" class="hover:text-primary py-2 border-b border-gray-100">Achievements</a>
-                <a href="#download" class="hover:text-primary py-2 border-b border-gray-100">Download</a>
-                <a href="#gallery" class="hover:text-primary py-2 border-b border-gray-100">Gallery</a>
-                <a href="#faq" class="hover:text-primary py-2 border-b border-gray-100">FAQ</a>
-                <a href="#contact" class="bg-primary text-white px-5 py-2 rounded-lg font-bold">Contact Us</a>
+            class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
+            <div class="p-3 font-medium">
+                <div class="grid grid-cols-2 gap-1 text-center text-sm">
+                    <a href="#home" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Home</a>
+                    <a href="#about" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">About Us</a>
+                    <a href="#testimonial" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Testimonial</a>
+                    <a href="#facilities" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Facilities</a>
+                    <a href="#academics" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Academics</a>
+                    <a href="#achievements" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Achievements</a>
+                    <a href="#download" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Download</a>
+                    <a href="#gallery" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Gallery</a>
+                    <a href="#faq" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">FAQ</a>
+                    <a href="#contact" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Contact</a>
+                </div>
+                <div class="mt-2 flex flex-col gap-1">
+                    <a href="pages/login.html" class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i class="fas fa-user-lock"></i> Login</a>
+                    <a href="pages/admission.html" class="flex items-center justify-center gap-1 bg-secondary text-primary px-4 py-2 rounded-lg font-bold text-sm">Admissions</a>
+                </div>
             </div>
         </div>
         <!-- News Ticker / Notice Board -->
