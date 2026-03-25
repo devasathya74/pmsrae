@@ -739,7 +739,7 @@
                     <div class="p-4 bg-gray-50 border-b flex flex-col md:flex-row justify-between items-center gap-4">
                         <h4 class="font-bold text-gray-700">Recent Fee Transactions</h4>
                         <div class="flex gap-2 items-center">
-                            <select id="recent-fee-class-filter" onchange="loadRecentFees()" 
+                            <select id="recent-fee-class-filter" onchange="loadRecentFees()"
                                 class="text-xs border-2 border-gray-200 rounded px-2 py-1 outline-none focus:border-blue-500">
                                 <option value="">All Classes</option>
                                 <option value="lkg">LKG</option>
@@ -753,22 +753,28 @@
                                 <option value="7">7</option>
                                 <option value="8">8</option>
                             </select>
-                            <span class="text-xs text-blue-600 font-bold uppercase cursor-pointer hover:underline" onclick="switchTab('fees')">See All</span>
+                            <span class="text-xs text-blue-600 font-bold uppercase cursor-pointer hover:underline"
+                                onclick="switchTab('fees')">See All</span>
                         </div>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm">
                             <thead class="bg-gray-100">
                                 <tr>
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">Student/Class</th>
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">Month/Year</th>
-                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">Amount</th>
-                                    <th class="px-4 py-3 text-right font-bold text-gray-700 uppercase tracking-wider">Date</th>
+                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">
+                                        Student/Class</th>
+                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">
+                                        Month/Year</th>
+                                    <th class="px-4 py-3 text-left font-bold text-gray-700 uppercase tracking-wider">
+                                        Amount</th>
+                                    <th class="px-4 py-3 text-right font-bold text-gray-700 uppercase tracking-wider">
+                                        Date</th>
                                 </tr>
                             </thead>
                             <tbody id="recent-fees-tbody">
                                 <tr>
-                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">Loading transactions...</td>
+                                    <td colspan="4" class="px-6 py-4 text-center text-gray-500">Loading transactions...
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -1339,7 +1345,8 @@
     <div id="view-fee-modal"
         class="hidden fixed inset-0 bg-black bg-opacity-50 z-[60] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] flex flex-col scale-100">
-            <div class="bg-green-700 text-white px-6 py-4 rounded-t-2xl flex justify-between items-center flex-shrink-0">
+            <div
+                class="bg-green-700 text-white px-6 py-4 rounded-t-2xl flex justify-between items-center flex-shrink-0">
                 <h3 class="text-xl font-bold"><i class="fas fa-history mr-2"></i>Fee Payment History</h3>
                 <button onclick="closeViewFeeModal()" class="text-white hover:text-gray-200">
                     <i class="fas fa-times text-2xl"></i>
@@ -1365,10 +1372,12 @@
                 </div>
                 <div class="flex-1">
                     <label class="block text-xs font-bold text-gray-500 uppercase mb-1">Search Student</label>
-                    <input type="text" id="view-fee-search" oninput="filterFeeHistory()" placeholder="Name or Roll No..."
+                    <input type="text" id="view-fee-search" oninput="filterFeeHistory()"
+                        placeholder="Name or Roll No..."
                         class="w-full px-3 py-1.5 border rounded-lg focus:ring-2 focus:ring-green-500 outline-none">
                 </div>
-                <button onclick="filterFeeHistory()" class="bg-green-600 text-white px-4 py-1.5 rounded-lg hover:bg-green-700">
+                <button onclick="filterFeeHistory()"
+                    class="bg-green-600 text-white px-4 py-1.5 rounded-lg hover:bg-green-700">
                     <i class="fas fa-search"></i>
                 </button>
             </div>
@@ -1394,12 +1403,15 @@
     </div>
 
     <!-- Fee Ledger Modal -->
-    <div id="ledger-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[70] flex items-center justify-center p-4">
+    <div id="ledger-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 z-[70] flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-            <div class="sticky top-0 bg-purple-700 text-white px-6 py-4 rounded-t-2xl flex justify-between items-center shadow-md">
+            <div
+                class="sticky top-0 bg-purple-700 text-white px-6 py-4 rounded-t-2xl flex justify-between items-center shadow-md">
                 <h3 class="text-xl font-bold"><i class="fas fa-calculator mr-2"></i>School Financial Ledger</h3>
                 <div class="flex gap-2">
-                    <button onclick="openExpenseModal()" class="bg-white text-purple-700 px-3 py-1 rounded text-sm font-bold hover:bg-purple-50">
+                    <button onclick="openExpenseModal()"
+                        class="bg-white text-purple-700 px-3 py-1 rounded text-sm font-bold hover:bg-purple-50">
                         <i class="fas fa-plus mr-1"></i>Add Other Expense
                     </button>
                     <button onclick="closeLedgerModal()" class="text-white hover:text-gray-200">
@@ -1428,7 +1440,8 @@
                     </div>
                 </div>
 
-                <h4 class="font-bold text-gray-700 mb-4 uppercase text-sm tracking-wider">Classwise Income Breakdown</h4>
+                <h4 class="font-bold text-gray-700 mb-4 uppercase text-sm tracking-wider">Classwise Income Breakdown
+                </h4>
                 <div class="overflow-x-auto rounded-lg border">
                     <table class="w-full">
                         <thead class="bg-gray-50 border-b">
@@ -1450,9 +1463,11 @@
     </div>
 
     <!-- Add Expense Modal -->
-    <div id="expense-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-[80] flex items-center justify-center p-4">
+    <div id="expense-modal"
+        class="hidden fixed inset-0 bg-black bg-opacity-50 z-[80] flex items-center justify-center p-4">
         <div class="bg-white rounded-xl shadow-2xl max-w-md w-full p-6">
-            <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-receipt mr-2 text-red-600"></i>Record Other Expense</h3>
+            <h3 class="text-xl font-bold mb-4 flex items-center"><i class="fas fa-receipt mr-2 text-red-600"></i>Record
+                Other Expense</h3>
             <form id="expense-form" class="space-y-4" onsubmit="handleExpenseSubmit(event)">
                 <div>
                     <label class="block text-sm font-bold mb-1">Description *</label>
@@ -1465,8 +1480,11 @@
                         class="w-full px-3 py-2 border rounded focus:ring-2 focus:ring-red-500 outline-none">
                 </div>
                 <div class="flex gap-2 pt-2">
-                    <button type="submit" class="flex-1 bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700 transition-colors">Save Expense</button>
-                    <button type="button" onclick="closeExpenseModal()" class="px-4 bg-gray-200 font-bold py-2 rounded hover:bg-gray-300">Cancel</button>
+                    <button type="submit"
+                        class="flex-1 bg-red-600 text-white font-bold py-2 rounded hover:bg-red-700 transition-colors">Save
+                        Expense</button>
+                    <button type="button" onclick="closeExpenseModal()"
+                        class="px-4 bg-gray-200 font-bold py-2 rounded hover:bg-gray-300">Cancel</button>
                 </div>
             </form>
         </div>
@@ -1491,7 +1509,8 @@
                     <div id="modal-actions-top" class="flex gap-2"></div>
                 </div>
 
-                <div class="bg-white p-8 shadow-lg border border-gray-300 relative mx-auto max-w-3xl text-sm text-gray-800 leading-relaxed font-serif">
+                <div
+                    class="bg-white p-8 shadow-lg border border-gray-300 relative mx-auto max-w-3xl text-sm text-gray-800 leading-relaxed font-serif">
                     <div class="flex items-center justify-between border-b-2 border-black pb-4 mb-8">
                         <img src="../assets/images/logo/logo1.png" alt="Logo" class="w-20 h-auto opacity-80">
                         <div class="text-center flex-1 px-4">
@@ -1510,16 +1529,31 @@
                     </div>
 
                     <div class="space-y-4 mt-20 pr-36">
-                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Name of Scholar:</span> <span id="preview-name" class="flex-1 border-b border-dotted border-gray-400 font-semibold text-blue-900 px-2"></span></p>
-                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Date of Birth:</span> <span id="preview-dob" class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span></p>
-                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Class Sought:</span> <span id="preview-class" class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span></p>
-                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Father's Name:</span> <span id="preview-father" class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span></p>
-                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Address:</span> <span id="preview-address" class="flex-1 border-b border-dotted border-gray-400 px-2"></span></p>
+                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Name of
+                                Scholar:</span> <span id="preview-name"
+                                class="flex-1 border-b border-dotted border-gray-400 font-semibold text-blue-900 px-2"></span>
+                        </p>
+                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Date of Birth:</span>
+                            <span id="preview-dob"
+                                class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span>
+                        </p>
+                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Class Sought:</span>
+                            <span id="preview-class"
+                                class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span>
+                        </p>
+                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Father's Name:</span>
+                            <span id="preview-father"
+                                class="flex-1 border-b border-dotted border-gray-400 font-semibold px-2"></span>
+                        </p>
+                        <p class="flex items-baseline"><span class="w-40 font-bold text-gray-900">Address:</span> <span
+                                id="preview-address" class="flex-1 border-b border-dotted border-gray-400 px-2"></span>
+                        </p>
                     </div>
                 </div>
             </div>
 
-            <div class="p-6 bg-gray-100 border-t rounded-b-2xl flex justify-between items-center" id="modal-actions-bottom"></div>
+            <div class="p-6 bg-gray-100 border-t rounded-b-2xl flex justify-between items-center"
+                id="modal-actions-bottom"></div>
         </div>
     </div>
 
