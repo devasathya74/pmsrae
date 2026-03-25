@@ -22,6 +22,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        html {
+            font-size: 115%;
+        }
+
         body {
             background-color: #f0f2f5;
             font-family: 'Tiro Devanagari Hindi',
@@ -30,8 +34,9 @@
                 Geneva,
                 Verdana,
                 sans-serif;
-            padding-top: 120px;
-            /* Add padding for fixed header */
+            padding-top: 100px;
+            /* Match index.html padding */
+            line-height: 1.8;
         }
 
         /* Header specific styles to match index.html */
@@ -150,16 +155,16 @@
 
     <!-- Navigation -->
     <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-primary shadow-lg text-white">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+        <div class="container mx-auto px-6 py-0 flex justify-between items-center relative">
             <!-- Logo -->
             <a href="../index.html" class="flex items-center gap-3 group">
                 <img src="../assets/images/logo/logo.png" alt="Police Modern School Raebareli"
                     class="w-12 h-12 object-contain rounded-lg shadow-lg group-hover:scale-110 transition-transform">
                 <div class="flex flex-col">
                     <span
-                        class="text-3xl md:text-4xl font-bold tracking-wide leading-tight group-hover:text-secondary transition-colors">पुलिस
+                        class="text-3xl sm:text-4xl md:text-5xl lg:text-4xl xl:text-5xl font-bold tracking-wide leading-tight group-hover:text-secondary transition-colors whitespace-normal break-words">पुलिस
                         मॉडर्न स्कूल रायबरेली</span>
-                    <span class="text-lg font-medium opacity-90">25वीं वाहिनी पीएसी, रायबरेली</span>
+                    <span class="text-lg sm:text-xl font-medium opacity-90 whitespace-normal break-words">25वीं वाहिनी पीएसी, रायबरेली</span>
                 </div>
             </a>
 
@@ -186,7 +191,7 @@
         </button>
     </div>
 
-    <div class="max-w-4xl mx-auto">
+    <div class="w-full px-4 md:px-8">
         <!-- Progress Bar -->
         <div class="mb-8 no-print" id="progressContainer">
             <div class="flex justify-between mb-2">
