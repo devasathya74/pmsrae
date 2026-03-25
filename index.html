@@ -91,7 +91,7 @@
         }
 
         html {
-            font-size: 90%;
+            font-size: 115%;
         }
 
         body {
@@ -100,6 +100,7 @@
             margin: 0;
             overflow-x: hidden;
             padding-top: 130px; /* Space for fixed navbar + ticker */
+            line-height: 1.8; /* Increased by ~30% for vertical expansion */
         }
 
         .bg-primary {
@@ -138,7 +139,7 @@
             z-index: 1000;
             transition: all 0.3s;
             background-color: var(--color-primary);
-            height: 80px; /* Static height to prevent layout shift */
+            height: auto;
         }
 
         #home {
@@ -512,19 +513,19 @@
 <body class="text-gray-700 bg-white">
 
     <!-- Navigation -->
-    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-primary shadow-lg text-white">
-        <div class="container mx-auto px-6 py-4 flex justify-between items-center relative">
+    <nav id="navbar" class="fixed top-0 left-0 w-full z-50 bg-primary text-white">
+        <div class="container mx-auto px-6 py-0 flex justify-between items-center relative">
             <!-- Logo -->
             <a href="#" class="flex items-center gap-2 group min-w-0">
                 <img src="/assets/images/logo/logo.png" alt="Police Modern School Logo" width="48" height="48"
                     class="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 object-contain rounded-lg shadow-lg group-hover:scale-110 transition-transform">
                 <div class="flex flex-col min-w-0">
                     <span
-                        class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-bold tracking-wide leading-snug pt-1 group-hover:text-secondary transition-colors truncate">
+                        class="text-xl sm:text-3xl md:text-4xl lg:text-3xl xl:text-4xl font-bold tracking-wide leading-tight pt-1 group-hover:text-secondary transition-colors whitespace-normal sm:truncate break-words">
                         <!-- Font Size Adjustment: Edit classes below -->
                         Police Modern School Raebareli
                     </span>
-                    <span class="text-xs sm:text-sm font-medium opacity-90 truncate">
+                    <span class="text-sm sm:text-lg font-medium opacity-90 whitespace-normal sm:truncate break-words">
                         <!-- Font Size Adjustment: Edit classes above/below -->
                         25th Vahini PAC, Raebareli
                     </span>
@@ -589,7 +590,7 @@
             </div>
         </div>
         <!-- News Ticker / Notice Board -->
-        <div id="notice-board" class="bg-gradient-to-r from-red-600 to-red-700 text-white py-3 shadow-lg">
+        <div id="notice-board" class="bg-gradient-to-r from-red-600 to-red-700 text-white py-1 shadow-xl">
         <div class="container mx-auto px-6">
             <div class="flex items-center gap-4">
                 <div
@@ -634,7 +635,7 @@
     </nav>
 
     <section id="home" style="min-height: calc(60vh + 1cm);"
-        class="relative flex items-center justify-center text-center bg-primary">
+        class="relative flex items-center justify-center text-center bg-primary py-20">
 
         <img src="/assets/images/hero1.webp" width="1200" height="800" fetchpriority="high" decoding="async"
             alt="Police Modern School Building" class="absolute inset-0 w-full h-full object-cover z-0">
@@ -902,7 +903,7 @@
     </section>
 
     <!-- Academics Section -->
-    <section id="academics" class="py-14 bg-primary relative overflow-hidden">
+    <section id="academics" class="py-24 bg-gradient-to-br from-white to-blue-50 relative overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
             <i class="fas fa-shapes text-8xl absolute top-10 left-10 text-white"></i>
@@ -1451,23 +1452,6 @@
             });
         });
 
-        // Dynamic Notice Board Positioning
-        function adjustNoticeBoard() {
-            const header = document.getElementById('navbar');
-            const noticeBoard = document.getElementById('notice-board');
-
-            if (header && noticeBoard) {
-                const headerHeight = header.offsetHeight;
-                noticeBoard.style.top = headerHeight + 'px';
-                noticeBoard.style.marginTop = headerHeight + 'px';
-            }
-        }
-
-        // Run on load, resize, and scroll
-        window.addEventListener('load', adjustNoticeBoard);
-        window.addEventListener('resize', adjustNoticeBoard);
-        // Also run immediately
-        adjustNoticeBoard();
     </script>
 
     <!-- Structured Data (Schema.org) -->
