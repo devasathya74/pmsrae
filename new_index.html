@@ -140,8 +140,11 @@
         }
     </style>
 
-    <!-- Tailwind CSS - Using jsDelivr CDN -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <style>
+        .bg-academics-gradient {
+            background: linear-gradient(to bottom right, var(--color-primary), #111827) !important;
+        }
+    </style>
 
     <!-- Critical CSS for Instant Visual Feedback -->
     <style>
@@ -450,8 +453,7 @@
                 const cdnStatus = {
                     tailwind: document.querySelector('link[href*="tailwindcss"]') !== null,
                     fontAwesome: document.querySelector('link[href*="font-awesome"]') !== null,
-                    aos: typeof AOS !== 'undefined',
-                    swiper: typeof Swiper !== 'undefined'
+                    aos: typeof AOS !== 'undefined'
                 };
 
                 console.log('CDN Loading Status:', cdnStatus);
@@ -468,9 +470,6 @@
                 }
                 if (!cdnStatus.aos) {
                     console.warn('⚠️ AOS (Animate On Scroll) failed to load - animations may not work');
-                }
-                if (!cdnStatus.swiper) {
-                    console.warn('⚠️ Swiper JS failed to load - gallery will not work');
                 }
 
                 // Show success message if all loaded
@@ -881,7 +880,7 @@
     </section>
 
     <!-- Academics Section -->
-    <section id="academics" class="py-24 bg-gradient-to-br from-white to-blue-50 relative overflow-hidden">
+    <section id="academics" class="py-24 bg-academics-gradient relative overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
             <i class="fas fa-shapes text-8xl absolute top-10 left-10 text-white"></i>
@@ -1655,6 +1654,7 @@
                 window.authHelper = authHelper;
                 window.analyticsHelper = analyticsHelper;
                 analyticsHelper?.logPageView('home');
+                window.dispatchEvent(new Event('firebase-loaded'));
                 console.log('✅ Firebase deferred load complete');
             })
             .catch(() => { });

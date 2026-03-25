@@ -386,7 +386,11 @@ async function loadNewsTicker() {
         try {
             const notifications = JSON.parse(cached).filter(n => n.status === 'active' || !n.status);
             if (notifications.length > 0) {
-                tickerContent.innerHTML = notifications.map(n => `<span class="news-item inline-block mx-8">• ${n.message || n.text}</span>`).join('');
+                tickerContent.innerHTML = notifications.map(n => `
+                    <span class="news-item inline-block">
+                        <i class="fas fa-bullhorn text-yellow-300 mr-2"></i>
+                        ${n.message || n.text}
+                    </span>`).join('');
             }
         } catch (e) { }
     }
@@ -401,7 +405,11 @@ const fetchAndCacheNotifications = async () => {
             const active = result.data.filter(n => n.status === 'active' || !n.status);
             const ticker = document.getElementById('news-ticker-content');
             if (ticker && active.length > 0) {
-                ticker.innerHTML = active.map(n => `<span class="news-item inline-block mx-8">• ${n.message || n.text}</span>`).join('');
+                ticker.innerHTML = active.map(n => `
+                    <span class="news-item inline-block">
+                        <i class="fas fa-bullhorn text-yellow-300 mr-2"></i>
+                        ${n.message || n.text}
+                    </span>`).join('');
             }
         }
     } catch (e) { }

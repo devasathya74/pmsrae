@@ -17,8 +17,6 @@
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style">
     <link rel="preload" as="image" href="/assets/images/hero1.webp" fetchpriority="high">
     <link rel="preload" as="image" href="/assets/images/logo/logo.png" fetchpriority="high">
-    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" as="font"
-        type="font/woff2" crossorigin>
 
     <!-- Google AdSense - Temporarily Disabled for Debugging 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6154654647536398"
@@ -99,8 +97,10 @@
             background-color: white;
             margin: 0;
             overflow-x: hidden;
-            padding-top: 130px; /* Space for fixed navbar + ticker */
-            line-height: 1.8; /* Increased by ~30% for vertical expansion */
+            padding-top: 130px;
+            /* Space for fixed navbar + ticker */
+            line-height: 1.8;
+            /* Increased by ~30% for vertical expansion */
         }
 
         .bg-primary {
@@ -114,20 +114,29 @@
         .bg-secondary {
             background-color: var(--color-secondary) !important;
         }
+
         .text-secondary {
             color: var(--color-secondary) !important;
         }
+
         .border-secondary {
             border-color: var(--color-secondary) !important;
         }
+
         .bg-accent {
             background-color: var(--color-accent) !important;
         }
+
         .text-accent {
             color: var(--color-accent) !important;
         }
+
         .bg-soft {
             background-color: var(--color-soft) !important;
+        }
+
+        .bg-academics-gradient {
+            background: linear-gradient(to bottom right, var(--color-primary), #111827) !important;
         }
 
         #navbar {
@@ -214,11 +223,20 @@
                 max-width: 1280px;
             }
         }
+
         /* Custom Animations */
         @keyframes bounce-x {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
         }
+
         .animate-bounce-x {
             animation: bounce-x 1s infinite;
         }
@@ -479,8 +497,7 @@
                 const cdnStatus = {
                     tailwind: document.querySelector('link[href*="tailwindcss"]') !== null,
                     fontAwesome: document.querySelector('link[href*="font-awesome"]') !== null,
-                    aos: typeof AOS !== 'undefined',
-                    swiper: typeof Swiper !== 'undefined'
+                    aos: typeof AOS !== 'undefined'
                 };
 
                 console.log('CDN Loading Status:', cdnStatus);
@@ -497,9 +514,6 @@
                 }
                 if (!cdnStatus.aos) {
                     console.warn('⚠️ AOS (Animate On Scroll) failed to load - animations may not work');
-                }
-                if (!cdnStatus.swiper) {
-                    console.warn('⚠️ Swiper JS failed to load - gallery will not work');
                 }
 
                 // Show success message if all loaded
@@ -540,12 +554,14 @@
                 <a href="#testimonial" class="hover:text-secondary transition-colors whitespace-nowrap">Testimonial</a>
                 <a href="#facilities" class="hover:text-secondary transition-colors whitespace-nowrap">Facilities</a>
                 <a href="#academics" class="hover:text-secondary transition-colors whitespace-nowrap">Academics</a>
-                <a href="#achievements" class="hover:text-secondary transition-colors whitespace-nowrap">Achievements</a>
+                <a href="#achievements"
+                    class="hover:text-secondary transition-colors whitespace-nowrap">Achievements</a>
                 <a href="#download" class="hover:text-secondary transition-colors whitespace-nowrap">Download</a>
                 <a href="#gallery" class="hover:text-secondary transition-colors whitespace-nowrap">Gallery</a>
                 <a href="#faq" class="hover:text-secondary transition-colors whitespace-nowrap">FAQ</a>
                 <a href="#contact" class="hover:text-secondary transition-colors whitespace-nowrap">Contact</a>
-                <a href="pages/login.html" class="flex items-center gap-1 bg-white/10 border border-white/20 px-3 py-1 rounded-full hover:bg-secondary hover:text-primary transition-all whitespace-nowrap text-white font-bold text-[10px]">
+                <a href="pages/login.html"
+                    class="flex items-center gap-1 bg-white/10 border border-white/20 px-3 py-1 rounded-full hover:bg-secondary hover:text-primary transition-all whitespace-nowrap text-white font-bold text-[10px]">
                     <i class="fas fa-user-lock"></i>Login
                 </a>
                 <a href="pages/admission.html"
@@ -575,70 +591,83 @@
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu"
-            class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
+        <div id="mobile-menu" class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
             <div class="p-3 font-medium">
                 <div class="grid grid-cols-2 gap-1 text-center text-sm">
-                    <a href="#home" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Home</a>
-                    <a href="#about" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">About Us</a>
-                    <a href="#testimonial" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Testimonial</a>
-                    <a href="#facilities" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Facilities</a>
-                    <a href="#academics" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Academics</a>
-                    <a href="#achievements" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Achievements</a>
-                    <a href="#download" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Download</a>
-                    <a href="#gallery" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Gallery</a>
-                    <a href="#faq" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">FAQ</a>
-                    <a href="#contact" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Contact</a>
+                    <a href="#home"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Home</a>
+                    <a href="#about"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">About
+                        Us</a>
+                    <a href="#testimonial"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Testimonial</a>
+                    <a href="#facilities"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Facilities</a>
+                    <a href="#academics"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Academics</a>
+                    <a href="#achievements"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Achievements</a>
+                    <a href="#download"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Download</a>
+                    <a href="#gallery"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Gallery</a>
+                    <a href="#faq"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">FAQ</a>
+                    <a href="#contact"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">Contact</a>
                 </div>
                 <div class="mt-2 flex flex-col gap-1">
-                    <a href="pages/login.html" class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i class="fas fa-user-lock"></i> Login</a>
-                    <a href="pages/admission.html" class="flex items-center justify-center gap-1 bg-secondary text-primary px-4 py-2 rounded-lg font-bold text-sm">Admissions</a>
+                    <a href="pages/login.html"
+                        class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i
+                            class="fas fa-user-lock"></i> Login</a>
+                    <a href="pages/admission.html"
+                        class="flex items-center justify-center gap-1 bg-secondary text-primary px-4 py-2 rounded-lg font-bold text-sm">Admissions</a>
                 </div>
             </div>
         </div>
         <!-- News Ticker / Notice Board -->
         <div id="notice-board" class="bg-gradient-to-r from-red-600 to-red-700 text-white py-1 shadow-xl">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center gap-4">
-                <div
-                    class="flex items-center gap-2 bg-white text-red-600 px-4 py-2 rounded-lg font-bold whitespace-nowrap">
-                    <i class="fas fa-bullhorn animate-pulse"></i>
-                    <span class="hidden sm:inline">Notice Board</span>
-                    <span class="sm:hidden">Notice</span>
-                </div>
-                <div class="flex-1 overflow-hidden">
-                    <div class="news-ticker">
-                        <div id="news-ticker-content" class="news-ticker-content">
-                            <span class="news-item">
-                                <i class="fas fa-star text-yellow-300 mr-2"></i>
-                                Admissions Open for Session 2026-27 – Last Date: 15 Feb 2027
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-calendar-check text-yellow-300 mr-2"></i>
-                                Annual Exams: 1 March to 15 March 2027
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-trophy text-yellow-300 mr-2"></i>
-                                Our students won 5 Gold Medals in Inter-School Sports Competition
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-gift text-yellow-300 mr-2"></i>
-                                10% Discount on New Admissions – Limited Time Offer
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-book text-yellow-300 mr-2"></i>
-                                New Computer Lab and Smart Classrooms Now Available
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-bell text-yellow-300 mr-2"></i>
-                                Parent-Teacher Meeting: 5 Feb 2027, 10:00 AM
-                            </span>
+            <div class="container mx-auto px-6">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="flex items-center gap-2 bg-white text-red-600 px-4 py-2 rounded-lg font-bold whitespace-nowrap">
+                        <i class="fas fa-bullhorn animate-pulse"></i>
+                        <span class="hidden sm:inline">Notice Board</span>
+                        <span class="sm:hidden">Notice</span>
+                    </div>
+                    <div class="flex-1 overflow-hidden">
+                        <div class="news-ticker">
+                            <div id="news-ticker-content" class="news-ticker-content">
+                                <span class="news-item">
+                                    <i class="fas fa-star text-yellow-300 mr-2"></i>
+                                    Admissions Open for Session 2026-27 – Last Date: 15 Feb 2027
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-calendar-check text-yellow-300 mr-2"></i>
+                                    Annual Exams: 1 March to 15 March 2027
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-trophy text-yellow-300 mr-2"></i>
+                                    Our students won 5 Gold Medals in Inter-School Sports Competition
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-gift text-yellow-300 mr-2"></i>
+                                    10% Discount on New Admissions – Limited Time Offer
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-book text-yellow-300 mr-2"></i>
+                                    New Computer Lab and Smart Classrooms Now Available
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-bell text-yellow-300 mr-2"></i>
+                                    Parent-Teacher Meeting: 5 Feb 2027, 10:00 AM
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </nav>
 
     <section id="home" style="min-height: calc(60vh + 1cm);"
@@ -734,7 +763,8 @@
                     <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800"><span class="text-primary">Police
                             Modern School</span> – Building a Bright Future for Children</h2>
                     <p class="text-gray-600 mb-4 leading-relaxed text-sm">
-                        Located inside the secure campus of <strong>25th Vahini PAC, Raebareli</strong>, Police Modern School
+                        Located inside the secure campus of <strong>25th Vahini PAC, Raebareli</strong>, Police Modern
+                        School
                         is committed to providing high-quality primary education. We believe every child is unique
                         and deserves an environment that fosters curiosity, discipline and joy. We build values,
                         ethics and responsibility alongside education.
@@ -910,7 +940,7 @@
     </section>
 
     <!-- Academics Section -->
-    <section id="academics" class="py-24 bg-gradient-to-br from-white to-blue-50 relative overflow-hidden">
+    <section id="academics" class="py-24 bg-academics-gradient relative overflow-hidden">
         <!-- Background Pattern -->
         <div class="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
             <i class="fas fa-shapes text-8xl absolute top-10 left-10 text-white"></i>
@@ -1147,11 +1177,11 @@
 
         <div class="gallery-wrapper w-full">
             <div id="slider" class="slider-container">
-                <div class="slide" data-position="0"><img src="/assets/images/gallery/img1.webp" alt="School Activity 1"
+                <div class="slide" data-position="0"><img src="/assets/images/gallery/1.jpg" alt="School Activity 1"
                         loading="lazy"></div>
-                <div class="slide" data-position="1"><img src="/assets/images/gallery/img2.webp" alt="School Activity 2"
+                <div class="slide" data-position="1"><img src="/assets/images/gallery/2.jpg" alt="School Activity 2"
                         loading="lazy"></div>
-                <div class="slide" data-position="2"><img src="/assets/images/gallery/img3.webp" alt="School Activity 3"
+                <div class="slide" data-position="2"><img src="/assets/images/gallery/3.jpg" alt="School Activity 3"
                         loading="lazy"></div>
                 <div class="slide" data-position="3"><img src="/assets/images/gallery/img4.webp" alt="School Activity 4"
                         loading="lazy"></div>
@@ -1711,6 +1741,7 @@
                 window.authHelper = authHelper;
                 window.analyticsHelper = analyticsHelper;
                 analyticsHelper?.logPageView('home');
+                window.dispatchEvent(new Event('firebase-loaded'));
                 console.log('✅ Firebase deferred load complete');
             })
             .catch(() => { });

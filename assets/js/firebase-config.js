@@ -276,6 +276,34 @@ export const firestoreHelper = {
         } catch (error) {
             return { success: false, error: error.message };
         }
+    },
+    
+    // Get collection by simple query
+    async getCollectionByQuery(collectionName, field, operator, value) {
+        try {
+            const q = query(collection(db, collectionName), where(field, operator, value));
+            const querySnapshot = await getDocs(q);
+            const data = [];
+            querySnapshot.forEach((doc) => {
+                data.push({ id: doc.id, ...doc.data() });
+            });
+            return { success: true, data: data };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    },
+
+    // Set document (with custom ID)
+    async setDocument(collectionName, docId, data) {
+        try {
+            await setDoc(doc(db, collectionName, docId), {
+                ...data,
+                updatedAt: new Date().toISOString()
+            });
+            return { success: true };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
     }
 };
 
