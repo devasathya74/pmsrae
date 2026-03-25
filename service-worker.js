@@ -25,50 +25,43 @@ self.addEventListener('install', event => {
     );
 });
 
-// Fetch from cache
+// Fetch strategy
 self.addEventListener('fetch', event => {
-    // Skip caching for chrome-extension and other non-http requests
+    const url = new URL(event.request.url);
+
+    // Skip non-http and analytics/firebase
     if (!event.request.url.startsWith('http') ||
-        event.request.url.includes('firestore.googleapis.com') ||
-        event.request.url.includes('apis.google.com') ||
-        event.request.url.includes('firebase')) {
+        url.hostname.includes('firestore.googleapis.com') ||
+        url.hostname.includes('google-analytics.com') ||
+        url.hostname.includes('firebase')) {
         return;
     }
 
+    // HTML: Network First, falling back to cache
+    if (event.request.mode === 'navigate' || (event.request.headers.get('accept') || '').includes('text/html')) {
+        event.respondWith(
+            fetch(event.request).then(response => {
+                const copy = response.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
+                return response;
+            }).catch(() => caches.match(event.request))
+        );
+        return;
+    }
+
+    // Static Assets: Cache First, falling back to network
     event.respondWith(
-        caches.match(event.request)
-            .then(response => {
-                // Cache hit - return response
-                if (response) {
-                    return response;
+        caches.match(event.request).then(cachedResponse => {
+            if (cachedResponse) return cachedResponse;
+
+            return fetch(event.request).then(networkResponse => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const copy = networkResponse.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
                 }
-
-                return fetch(event.request).then(
-                    response => {
-                        // Check if valid response
-                        if (!response || response.status !== 200 || response.type !== 'basic') {
-                            return response;
-                        }
-
-                        // Clone the response
-                        const responseToCache = response.clone();
-
-                        caches.open(CACHE_NAME)
-                            .then(cache => {
-                                cache.put(event.request, responseToCache);
-                            });
-
-                        return response;
-                    }
-                ).catch(error => {
-                    console.warn('Fetch failed for:', event.request.url, error);
-                    // Return a fallback or just fail gracefully
-                    return new Response('Network error', {
-                        status: 408,
-                        headers: { 'Content-Type': 'text/plain' }
-                    });
-                });
-            })
+                return networkResponse;
+            });
+        })
     );
 });
 

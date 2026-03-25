@@ -1,7 +1,7 @@
 // Admin Dashboard JavaScript
 // Handles all CRUD operations for students, teachers, admissions, and notifications
 
-import { authHelper, firestoreHelper, analyticsHelper, storageHelper, collection, query, where, getDocs, orderBy, db, auth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from './firebase-config.js';
+import { authHelper, firestoreHelper, analyticsHelper, storageHelper, collection, query, where, getDocs, orderBy, limit, addDoc, db, auth, updatePassword, reauthenticateWithCredential, EmailAuthProvider } from './firebase-config.js';
 
 // Global state
 let allAdmissions = [];
@@ -205,33 +205,112 @@ function setupEventListeners() {
             if (el) el.scrollIntoView({ behavior: 'smooth' });
         }
     };
+
+    // Report Sub-tabs Logic
+    window.switchReportTab = function (type) {
+        const tabs = ['feedback', 'student', 'teacher'];
+        tabs.forEach(t => {
+            const btn = document.getElementById(`btn-report-${t}`);
+            const view = document.getElementById(`view-report-${t === 'feedback' ? 'feedback' : (t === 'student' ? 'student-classwise' : 'teacher-classwise')}`);
+            
+            if (t === type || (type === 'student-classwise' && t === 'student') || (type === 'teacher-classwise' && t === 'teacher')) {
+                if (btn) btn.className = "px-5 py-2 rounded-md bg-blue-100 text-blue-700 font-bold shadow-sm transition-all";
+                if (view) view.classList.remove('hidden');
+            } else {
+                if (btn) btn.className = "px-5 py-2 rounded-md text-gray-600 hover:bg-gray-50 font-semibold transition-all";
+                if (view) view.classList.add('hidden');
+            }
+        });
+
+        if (type === 'feedback') loadTeacherReports();
+        if (type === 'teacher-classwise' || type === 'teacher') displayTeacherClassReport();
+    };
+
+    // Student Class-wise Report
+    window.generateStudentClassReport = function () {
+        const className = document.getElementById('report-student-class-select').value;
+        const tbody = document.getElementById('report-student-tbody');
+        if (!className) {
+            tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-gray-400 italic">Select a class to view report</td></tr>';
+            return;
+        }
+
+        const filtered = allStudents.filter(s => s.class === className);
+        if (filtered.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-8 text-center text-gray-500 font-semibold">No students found in this class</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = filtered.map(s => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-3">${s.rollNumber || '-'}</td>
+                <td class="px-4 py-3 font-bold text-blue-900">${s.studentName || '-'}</td>
+                <td class="px-4 py-3">${s.fatherName || '-'}</td>
+                <td class="px-4 py-3">${s.mobile || '-'}</td>
+                <td class="px-4 py-3">
+                    <span class="px-2 py-1 rounded-full text-xs font-bold ${s.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">
+                        ${s.status || 'active'}
+                    </span>
+                </td>
+            </tr>
+        `).join('');
+    };
+
+    // Teacher Class-wise Report
+    window.displayTeacherClassReport = function () {
+        const tbody = document.getElementById('report-teacher-tbody');
+        if (!tbody) return;
+
+        if (allTeachers.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="4" class="px-6 py-8 text-center text-gray-400">Loading teacher assignments...</td></tr>';
+            return;
+        }
+
+        // Sort by assigned class
+        const sortedTeachers = [...allTeachers].sort((a, b) => {
+            if (!a.assignedClass) return 1;
+            if (!b.assignedClass) return -1;
+            return a.assignedClass.localeCompare(b.assignedClass);
+        });
+
+        tbody.innerHTML = sortedTeachers.map(t => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-3 font-bold text-blue-800">${t.assignedClass ? formatClass(t.assignedClass) : 'Not Assigned'}</td>
+                <td class="px-4 py-3 font-semibold">${t.name || '-'}</td>
+                <td class="px-4 py-3 text-sm">${t.subject || t.qualification || '-'}</td>
+                <td class="px-4 py-3 text-sm">${t.mobile || t.email || '-'}</td>
+            </tr>
+        `).join('');
+    };
+
+    // Export Functions
+    window.exportStudentClassReport = function () {
+        const className = document.getElementById('report-student-class-select').value;
+        if (!className) return alert('Please select a class first');
+        const filtered = allStudents.filter(s => s.class === className);
+        // Reuse export logic but for filtered list
+        const headers = ['Roll No', 'Name', 'Father Name', 'Mobile', 'Status'];
+        const csv = headers.join(',') + '\\n' + filtered.map(s => `"${s.rollNumber || ''}","${s.studentName || ''}","${s.fatherName || ''}","${s.mobile || ''}","${s.status || 'active'}"`).join('\\n');
+        downloadCSV(csv, `student_report_${className}.csv`);
+    };
+
+    window.exportTeacherClassReport = function () {
+        const headers = ['Class', 'Teacher Name', 'Subject', 'Contact'];
+        const csv = headers.join(',') + '\\n' + allTeachers.map(t => `"${t.assignedClass || 'None'}","${t.name || ''}","${t.subject || ''}","${t.mobile || ''}"`).join('\\n');
+        downloadCSV(csv, `teacher_class_report.csv`);
+    };
+
+    function downloadCSV(csv, filename) {
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
 }
 
-// Tab switching function
-window.switchTab = function (tabName) {
-    // Hide all tab content
-    const tabs = document.querySelectorAll('.tab-content');
-    tabs.forEach(tab => tab.classList.remove('active'));
-
-    // Remove active class from all tab buttons
-    const tabButtons = document.querySelectorAll('.tab-btn');
-    tabButtons.forEach(btn => btn.classList.remove('active'));
-
-    // Show selected tab
-    const selectedTab = document.getElementById(`${tabName}-tab`);
-    if (selectedTab) {
-        selectedTab.classList.add('active');
-    }
-
-    // Activate corresponding button
-    const buttons = document.querySelectorAll('.tab-btn');
-    buttons.forEach(btn => {
-        if (btn.textContent.toLowerCase().includes(tabName) ||
-            btn.onclick?.toString().includes(`'${tabName}'`)) {
-            btn.classList.add('active');
-        }
-    });
-};
 
 // Global state for monitoring
 let monitoringData = { students: [] };
@@ -447,6 +526,7 @@ async function loadAllData() {
         loadNotifications()
     ]);
     updateStats();
+    if (typeof loadRecentFees === 'function') loadRecentFees();
 }
 
 // ========== STUDENTS MANAGEMENT ==========
@@ -766,7 +846,8 @@ function displayTeachers(teachers, append = false) {
             <td class="px-6 py-4 font-semibold">${teacher.name || 'N/A'}</td>
             <td class="px-6 py-4">${teacher.email || 'N/A'}</td>
             <td class="px-6 py-4">${teacher.mobile || 'N/A'}</td>
-            <td class="px-6 py-4">${teacher.subject || 'N/A'}</td>
+            <td class="px-6 py-4 font-semibold">${teacher.subject || 'N/A'}</td>
+            <td class="px-6 py-4 font-bold text-green-700">₹${teacher.salary || 0}</td>
             <td class="px-6 py-4">
                 ${teacher.assignedClass ? `<span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">${formatClass(teacher.assignedClass)}</span>` : '-'}
             </td>
@@ -778,6 +859,9 @@ function displayTeachers(teachers, append = false) {
             <td class="px-6 py-4 text-center">
                 <button onclick="editTeacher('${teacher.id}')" class="text-blue-600 hover:text-blue-800 mr-3" title="Edit">
                     <i class="fas fa-edit"></i>
+                </button>
+                <button onclick="generateSalarySlip('${teacher.id}')" class="text-green-600 hover:text-green-800 mr-3" title="Generate Salary Slip">
+                    <i class="fas fa-file-invoice-dollar"></i>
                 </button>
                 <button onclick="deleteTeacher('${teacher.id}')" class="text-red-600 hover:text-red-800" title="Delete">
                     <i class="fas fa-trash"></i>
@@ -791,6 +875,13 @@ function displayTeachers(teachers, append = false) {
     } else {
         tbody.innerHTML = rowsHtml;
     }
+}
+
+// Generate Salary Slip Placeholder
+window.generateSalarySlip = function (id) {
+    const teacher = allTeachers.find(t => t.id === id);
+    if (!teacher) return;
+    alert(`Generating Salary Slip for ${teacher.name}... (Feature coming soon)`);
 }
 
 // Global Preview Function
@@ -899,6 +990,7 @@ window.editTeacher = async function (id) {
     document.getElementById('teacher-subject').value = teacher.subject || '';
     document.getElementById('teacher-assigned-class').value = teacher.assignedClass || '';
     document.getElementById('teacher-joining-date').value = teacher.joiningDate || '';
+    document.getElementById('teacher-salary').value = teacher.salary || '';
     document.getElementById('teacher-preview').src = teacher.photo || '../assets/images/logo.png'; // Set preview
 
     document.getElementById('teacher-modal').classList.remove('hidden');
@@ -920,6 +1012,7 @@ window.handleTeacherSubmit = async function (e) {
             qualification: document.getElementById('teacher-qualification').value,
             subject: document.getElementById('teacher-subject').value,
             assignedClass: document.getElementById('teacher-assigned-class').value,
+            salary: parseFloat(document.getElementById('teacher-salary').value) || 0,
             joiningDate: document.getElementById('teacher-joining-date').value,
             status: 'active',
             updatedAt: new Date().toISOString()
@@ -1646,21 +1739,45 @@ function updateStats() {
     updateNotificationDots();
 }
 
-// Tab switching
+// Consolidated Tab Switching Function
 window.switchTab = function (tab) {
+    // 1. Hide all tab content sections
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    
+    // 2. Clear active state from all navigation buttons
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
 
+    // 3. Show the requested tab content
     const content = document.getElementById(`${tab}-tab`);
-    if (content) content.classList.add('active');
+    if (content) {
+        content.classList.add('active');
+        // Scroll to top of content area on mobile
+        if (window.innerWidth < 768) window.scrollTo({ top: 300, behavior: 'smooth' });
+    }
 
-    // Support finding button by onclick attribute (for sidebar) or ID if added
-    const btn = document.querySelector(`button[onclick="switchTab('${tab}')"]`);
+    // 4. Highlight the matching nav button
+    // Try finding by exact onclick match (most reliable for our static structure)
+    let btn = document.querySelector(`button[onclick*="switchTab('${tab}')"]`);
+    
+    // Fallback: search within .tab-btn class for text content or fuzzy onclick
+    if (!btn) {
+        const allTabBtns = document.querySelectorAll('.tab-btn');
+        btn = Array.from(allTabBtns).find(b => 
+            b.onclick?.toString().includes(`'${tab}'`) || 
+            b.textContent.toLowerCase().includes(tab.split('-')[0])
+        );
+    }
+
     if (btn) btn.classList.add('active');
 
-    // Load data specific to tabs
+    // 5. Special handlers for specific tabs
     if (tab === 'teacher-reports') {
-        loadTeacherReports();
+        if (typeof loadTeacherReports === 'function') loadTeacherReports();
+    }
+    
+    // If we're on dashboard, maybe refresh stats
+    if (tab === 'dashboard' && typeof updateStats === 'function') {
+        updateStats();
     }
 };
 
@@ -1671,6 +1788,208 @@ initDashboard();
 // Monitoring Sub-tabs
 // Log page view
 analyticsHelper.logPageView('admin_dashboard');
+
+// ========== FEE MANAGEMENT FUNCTIONS ==========
+// Helper to extract student name from various possible database keys
+const getStudentDisplayName = (s) => {
+    if (!s) return 'Unknown Student';
+    return s.studentName || s.name || s.student_name || s.scholarName || s.fullName || 'Unknown';
+};
+
+// Helper to extract roll number from various possible database keys
+const getStudentDisplayRoll = (s) => {
+    if (!s) return 'No Roll';
+    return s.rollNumber || s.rollNo || s.roll_no || s.admissionId || 'No Roll';
+};
+
+window.openAddFeeModal = function () {
+    document.getElementById('add-fee-modal').classList.remove('hidden');
+    document.getElementById('fee-year').value = new Date().getFullYear();
+    // Reset form
+    document.getElementById('add-fee-form').reset();
+    document.getElementById('fee-student-id').innerHTML = '<option value="">First Select Class</option>';
+};
+
+window.closeAddFeeModal = function () {
+    document.getElementById('add-fee-modal').classList.add('hidden');
+};
+
+window.populateFeeStudentList = function () {
+    const classVal = document.getElementById('fee-class-select').value;
+    const studentSelect = document.getElementById('fee-student-id');
+    
+    if (!classVal) {
+        studentSelect.innerHTML = '<option value="">First Select Class</option>';
+        return;
+    }
+
+    const filtered = allStudents.filter(s => s.class && s.class.toLowerCase() === classVal.toLowerCase());
+    
+    if (filtered.length === 0) {
+        studentSelect.innerHTML = '<option value="">No students in this class</option>';
+        return;
+    }
+
+    studentSelect.innerHTML = '<option value="">Select Student</option>' + 
+        filtered.sort((a,b) => getStudentDisplayName(a).localeCompare(getStudentDisplayName(b)))
+        .map(s => `<option value="${s.id}">${getStudentDisplayName(s)} (${getStudentDisplayRoll(s)})</option>`)
+        .join('');
+};
+
+window.handleFeeSubmit = async function (e) {
+    e.preventDefault();
+    const btn = document.getElementById('save-fee-btn');
+    const originalText = btn.innerHTML;
+    
+    const studentId = document.getElementById('fee-student-id').value;
+    const classVal = document.getElementById('fee-class-select').value;
+    const month = document.getElementById('fee-month').value;
+    const year = parseInt(document.getElementById('fee-year').value);
+    const amount = parseFloat(document.getElementById('fee-amount').value);
+
+    // Find student for history record
+    const student = allStudents.find(s => s.id === studentId);
+    const studentName = getStudentDisplayName(student);
+
+    try {
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        btn.disabled = true;
+
+        await addDoc(collection(db, 'fees'), {
+            studentId,
+            studentName,
+            class: classVal,
+            month,
+            year,
+            amount,
+            submittedAt: new Date().toISOString(),
+            timestamp: new Date()
+        });
+
+        window.showToast('success', 'Fee Record Saved Successfully!');
+        closeAddFeeModal();
+        loadRecentFees(); // Refresh dashboard table
+    } catch (error) {
+        console.error("Fee saving error:", error);
+        window.showToast('error', 'Error: ' + error.message);
+    } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    }
+};
+
+window.openViewFeeModal = function () {
+    document.getElementById('view-fee-modal').classList.remove('hidden');
+    loadFeeHistory();
+};
+
+window.closeViewFeeModal = function () {
+    document.getElementById('view-fee-modal').classList.add('hidden');
+};
+
+window.loadFeeHistory = async function () {
+    const tbody = document.getElementById('fee-history-tbody');
+    tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-500"><i class="fas fa-spinner fa-spin"></i> Loading...</td></tr>';
+
+    try {
+        const q = query(collection(db, 'fees'), orderBy('timestamp', 'desc'), limit(50));
+        const snapshot = await getDocs(q);
+        window.allFeeRecords = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        renderFeeHistory(window.allFeeRecords);
+    } catch (error) {
+        console.error("Error loading history:", error);
+        tbody.innerHTML = `<tr><td colspan="5" class="px-6 py-10 text-center text-red-500">Error: ${error.message}</td></tr>`;
+    }
+};
+
+window.renderFeeHistory = function (records) {
+    const tbody = document.getElementById('fee-history-tbody');
+    if (records.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" class="px-6 py-10 text-center text-gray-500">No records found.</td></tr>';
+        return;
+    }
+
+    tbody.innerHTML = records.map(r => `
+        <tr class="border-b hover:bg-gray-50">
+            <td class="px-6 py-4 font-bold uppercase">${r.class}</td>
+            <td class="px-6 py-4 font-semibold text-blue-900">${r.studentName || 'Unknown Student'}</td>
+            <td class="px-6 py-4">${r.month} ${r.year}</td>
+            <td class="px-6 py-4 font-bold text-green-700">₹${r.amount}</td>
+            <td class="px-6 py-4 text-gray-500 text-xs">${new Date(r.submittedAt).toLocaleDateString()}</td>
+        </tr>
+    `).join('');
+};
+
+window.filterFeeHistory = function () {
+    const classFilter = document.getElementById('view-fee-class').value;
+    const searchVal = document.getElementById('view-fee-search').value.toLowerCase();
+    
+    let filtered = window.allFeeRecords || [];
+    
+    if (classFilter) {
+        filtered = filtered.filter(r => r.class === classFilter);
+    }
+    
+    if (searchVal) {
+        filtered = filtered.filter(r => 
+            r.studentName.toLowerCase().includes(searchVal) || 
+            r.class.toLowerCase().includes(searchVal)
+        );
+    }
+    
+    renderFeeHistory(filtered);
+};
+
+window.loadRecentFees = async function () {
+    const container = document.getElementById('recent-fees-tbody');
+    if (!container) return;
+
+    const classFilter = document.getElementById('recent-fee-class-filter')?.value;
+    
+    try {
+        let q;
+        // Simplified query to avoid index requirement for now if filter is not used
+        if (!classFilter) {
+            q = query(collection(db, 'fees'), orderBy('timestamp', 'desc'), limit(10));
+        } else {
+            // This might still error if index is missing, but it's what was requested
+            q = query(collection(db, 'fees'), where('class', '==', classFilter), orderBy('timestamp', 'desc'), limit(10));
+        }
+
+        const snapshot = await getDocs(q);
+        const fees = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+        if (fees.length === 0) {
+            container.innerHTML = '<tr><td colspan="4" class="px-6 py-4 text-center text-gray-500">No recent transactions.</td></tr>';
+            return;
+        }
+
+        container.innerHTML = fees.map(f => `
+            <tr class="border-b hover:bg-gray-50">
+                <td class="px-4 py-3">
+                    <div class="font-bold text-gray-800">${f.studentName || 'Unknown Student'}</div>
+                    <div class="text-xs text-gray-500 uppercase">Class ${f.class}</div>
+                </td>
+                <td class="px-4 py-3 text-gray-600">${f.month} ${f.year}</td>
+                <td class="px-4 py-3 font-bold text-green-600">₹${f.amount}</td>
+                <td class="px-4 py-3 text-right text-xs text-gray-400">
+                    ${new Date(f.submittedAt).toLocaleDateString()}
+                </td>
+            </tr>
+        `).join('');
+    } catch (error) {
+        console.error("Error loading recent fees:", error);
+    }
+};
+
+// Update switchTab to include loadRecentFees
+const originalSwitchTab = window.switchTab;
+window.switchTab = function (tab) {
+    if (originalSwitchTab) originalSwitchTab(tab);
+    if (tab === 'fees') {
+        loadRecentFees();
+    }
+};
 
 // ========== GLOBAL MODAL FUNCTIONS ==========
 window.closeTeacherModal = function () {
@@ -1823,3 +2142,136 @@ auth.onAuthStateChanged(user => {
         if (emailEl) emailEl.textContent = user.email;
     }
 });
+// ========== LEDGER & EXPENSES ==========
+
+const FEE_STRUCTURE = {
+    'lkg': 600,
+    'ukg': 600,
+    '1': 700,
+    '2': 700,
+    '3': 700,
+    '4': 800,
+    '5': 800,
+    '6': 900,
+    '7': 900,
+    '8': 900
+};
+
+window.openLedgerModal = async function() {
+    document.getElementById('ledger-modal').classList.remove('hidden');
+    await calculateLedgerData();
+};
+
+window.closeLedgerModal = function() {
+    document.getElementById('ledger-modal').classList.add('hidden');
+};
+
+window.openExpenseModal = function() {
+    document.getElementById('expense-modal').classList.remove('hidden');
+};
+
+window.closeExpenseModal = function() {
+    document.getElementById('expense-modal').classList.add('hidden');
+    document.getElementById('expense-form').reset();
+};
+
+window.handleExpenseSubmit = async function(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    
+    const expenseData = {
+        description: document.getElementById('exp-desc').value,
+        amount: parseFloat(document.getElementById('exp-amount').value),
+        date: new Date().toISOString(),
+        type: 'other'
+    };
+
+    try {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        const result = await firestoreHelper.addDocument('expenses', expenseData);
+        if(result.success) {
+            showSuccessToast('Expense recorded!');
+            closeExpenseModal();
+            calculateLedgerData(); // Refresh ledger
+        } else {
+            throw new Error(result.error);
+        }
+    } catch(err) {
+        alert('Error: ' + err.message);
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }
+};
+
+async function calculateLedgerData() {
+    const classBody = document.getElementById('ledger-class-body');
+    classBody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-gray-500"><i class="fas fa-spinner fa-spin mr-2"></i>Calculating financials...</td></tr>';
+
+    try {
+        // 1. Calculate Income from Students
+        const studentsByClass = {};
+        allStudents.forEach(s => {
+            const cls = (s.class || 'unknown').toLowerCase();
+            studentsByClass[cls] = (studentsByClass[cls] || 0) + 1;
+        });
+
+        let totalAnnualIncome = 0;
+        let rowsHtml = '';
+
+        const classes = ['lkg', 'ukg', '1', '2', '3', '4', '5', '6', '7', '8'];
+        
+        classes.forEach(cls => {
+            const count = studentsByClass[cls] || 0;
+            const monthlyFee = FEE_STRUCTURE[cls] || 800;
+            const miscCharge = 2000;
+            
+            // Formula: (Students * MonthlyFee * 12) + (Students * 2000)
+            const annualIncome = (count * monthlyFee * 12) + (count * miscCharge);
+            totalAnnualIncome += annualIncome;
+
+            rowsHtml += `
+                <tr class="border-b hover:bg-gray-50">
+                    <td class="px-4 py-3 font-bold uppercase">${cls}</td>
+                    <td class="px-4 py-3 text-right">${count}</td>
+                    <td class="px-4 py-3 text-right">₹${monthlyFee}</td>
+                    <td class="px-4 py-3 text-right">₹${count * miscCharge}</td>
+                    <td class="px-4 py-3 text-right font-bold text-blue-900">₹${annualIncome.toLocaleString()}</td>
+                </tr>
+            `;
+        });
+
+        classBody.innerHTML = rowsHtml;
+
+        // 2. Fetch Other Expenses
+        const expenseResult = await firestoreHelper.getDocuments('expenses');
+        let otherExpenseTotal = 0;
+        if(expenseResult.success) {
+            otherExpenseTotal = expenseResult.data.reduce((sum, exp) => sum + (exp.amount || 0), 0);
+        }
+
+        // 3. Calculate Teacher Salaries (Annual)
+        // Note: we fetch allTeachers during loadAllData
+        const totalMonthlySalaries = allTeachers.reduce((sum, t) => sum + (parseFloat(t.salary) || 0), 0);
+        const annualSalaries = totalMonthlySalaries * 12;
+
+        const totalExpenses = annualSalaries + otherExpenseTotal;
+        const netBalance = totalAnnualIncome - totalExpenses;
+
+        // Update UI
+        document.getElementById('ledger-total-income').innerText = `₹${totalAnnualIncome.toLocaleString()}`;
+        document.getElementById('ledger-total-expense').innerText = `₹${totalExpenses.toLocaleString()}`;
+        document.getElementById('ledger-other-expense').innerText = `₹${otherExpenseTotal.toLocaleString()}`;
+        document.getElementById('ledger-net-balance').innerText = `₹${netBalance.toLocaleString()}`;
+        
+        const balanceEl = document.getElementById('ledger-net-balance');
+        balanceEl.className = `text-2xl font-bold ${netBalance >= 0 ? 'text-green-800' : 'text-red-600'}`;
+
+    } catch (error) {
+        console.error('Ledger calculation error:', error);
+        classBody.innerHTML = '<tr><td colspan="5" class="py-8 text-center text-red-500">Error calculating financials. Check console.</td></tr>';
+    }
+}

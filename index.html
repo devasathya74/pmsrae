@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
@@ -7,11 +7,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
-    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
 
     <!-- Preloads for LCP and discovery -->
     <link rel="preload" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" as="style">
-    <link rel="preload" as="image" href="/assets/images/hero1.webp">
+    <link rel="preload" as="image" href="/assets/images/hero1.webp" fetchpriority="high">
+    <link rel="preload" as="image" href="/assets/images/logo/logo.png" fetchpriority="high">
+    <link rel="preload" href="https://fonts.gstatic.com/s/poppins/v22/pxiByp8kv8JHgFVrLCz7Z1xlFQ.woff2" as="font"
+        type="font/woff2" crossorigin>
 
     <!-- Google AdSense - Temporarily Disabled for Debugging 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6154654647536398"
@@ -19,7 +26,7 @@
     <meta name="google-adsense-account" content="ca-pub-6154654647536398">
 
     <!-- SEO Meta Tags -->
-    <title>Best School in Raebareli | Police Modern School (PMS) 25वीं वाहिनी PAC</title>
+    <title>Best School in Raebareli | Police Modern School (PMS) 25th Vahini PAC</title>
     <meta name="description"
         content="Looking for the best school in Raebareli? Police Modern School, 25वीं वाहिनी PAC offers quality education from LKG to Class 8 with smart classes, safe campus and experienced teachers. Admissions open 2026-27.">
     <meta name="keywords"
@@ -68,16 +75,25 @@
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/logo/favicon-16x16.png">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/logo/apple-touch-icon.png">
 
-    <!-- Tailwind CSS - Using jsDelivr CDN (no CORS issues) -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
-
-    <!-- Custom Tailwind Colors via CSS Variables -->
+    <!-- Critical CSS for Instant Visual Feedback -->
     <style>
         :root {
             --color-primary: #1e3a8a;
             --color-secondary: #facc15;
             --color-accent: #3b82f6;
             --color-soft: #f3f4f6;
+        }
+
+        html {
+            font-size: 90%;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: white;
+            margin: 0;
+            overflow-x: hidden;
+            padding-top: 80px; /* Space for fixed navbar */
         }
 
         .bg-primary {
@@ -88,69 +104,140 @@
             color: var(--color-primary) !important;
         }
 
-        .border-primary {
-            border-color: var(--color-primary) !important;
-        }
-
         .bg-secondary {
             background-color: var(--color-secondary) !important;
         }
-
         .text-secondary {
             color: var(--color-secondary) !important;
         }
-
         .border-secondary {
             border-color: var(--color-secondary) !important;
         }
-
         .bg-accent {
             background-color: var(--color-accent) !important;
         }
-
         .text-accent {
             color: var(--color-accent) !important;
         }
-
         .bg-soft {
             background-color: var(--color-soft) !important;
         }
 
-        /* Mobile Interaction Fix (Phase 7) */
-        @media (max-width: 768px) {
+        #navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s;
+            background-color: var(--color-primary);
+            height: 80px; /* Static height to prevent layout shift */
+        }
 
-            .card-hover:hover,
-            .hover\:scale-110:hover,
-            .group:hover .group-hover\:scale-105 {
-                transform: none !important;
-                box-shadow: none !important;
+        #home {
+            min-height: 500px;
+            background-color: #1e3a8a;
+            /* Hero background color */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-container {
+            height: 48px;
+            width: 48px;
+        }
+
+        .container {
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                padding-left: 1in;
+                padding-right: 1in;
             }
+        }
+
+        /* Skeleton Shimmer Effect */
+        @keyframes shimmer {
+            0% {
+                background-position: -468px 0;
+            }
+
+            100% {
+                background-position: 468px 0;
+            }
+        }
+
+        .skeleton {
+            background: #f6f7f8;
+            background-image: linear-gradient(to right, #f6f7f8 0%, #edeef1 20%, #f6f7f8 40%, #f6f7f8 100%);
+            background-repeat: no-repeat;
+            background-size: 800px 100%;
+            display: inline-block;
+            position: relative;
+            animation: shimmer 1.5s linear infinite forwards;
+        }
+
+        @media (min-width: 640px) {
+            .container {
+                max-width: 640px;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .container {
+                max-width: 768px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .container {
+                max-width: 1024px;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .container {
+                max-width: 1280px;
+            }
+        }
+        /* Custom Animations */
+        @keyframes bounce-x {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+        .animate-bounce-x {
+            animation: bounce-x 1s infinite;
         }
     </style>
 
-    <!-- Responsive CSS Framework -->
-    <link rel="stylesheet" href="/assets/css/responsive.css">
-
-    <!-- Google Fonts with display=swap for better performance -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Google Fonts -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'">
+        href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <!-- Hindi Font -->
     <link
         href="https://fonts.googleapis.com/css2?family=Kalam:wght@400;700&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap"
-        rel="stylesheet" media="print" onload="this.media='all'">
+        rel="stylesheet">
 
+    <!-- Deferred Non-Critical Styles -->
+    <!-- Tailwind CSS - Using jsDelivr CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-
+        crossorigin="anonymous" referrerpolicy="no-referrer" media="print" onload="this.media='all'">
     <!-- AOS (Animate On Scroll) -->
-    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="stylesheet" href="/assets/css/main.css" media="print" onload="this.media='all'">
+    <!-- Responsive CSS Framework -->
+    <link rel="stylesheet" href="/assets/css/responsive.css" media="print" onload="this.media='all'">
 
 
     <noscript>
@@ -170,7 +257,7 @@
 
     <style>
         body {
-            font-family: 'Tiro Devanagari Hindi', serif;
+            font-family: 'Poppins', sans-serif;
             /* scroll-behavior removed - handled by JavaScript for better control */
         }
 
@@ -180,7 +267,7 @@
         h4,
         h5,
         h6 {
-            font-family: 'Tiro Devanagari Hindi', serif;
+            font-family: 'Nunito', sans-serif;
         }
 
         .blob-shape {
@@ -427,34 +514,37 @@
                     class="w-10 h-10 md:w-12 md:h-12 flex-shrink-0 object-contain rounded-lg shadow-lg group-hover:scale-110 transition-transform">
                 <div class="flex flex-col min-w-0">
                     <span
-                        class="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-wide leading-snug pt-1 group-hover:text-secondary transition-colors truncate">
+                        class="text-lg sm:text-2xl md:text-3xl lg:text-2xl xl:text-3xl font-bold tracking-wide leading-snug pt-1 group-hover:text-secondary transition-colors truncate">
                         <!-- Font Size Adjustment: Edit classes below -->
-                        पुलिस मॉडर्न स्कूल रायबरेली
+                        Police Modern School Raebareli
                     </span>
-                    <span class="text-sm sm:text-base font-medium opacity-90 truncate">
+                    <span class="text-xs sm:text-sm font-medium opacity-90 truncate">
                         <!-- Font Size Adjustment: Edit classes above/below -->
-                        25वीं वाहिनी पीएसी, रायबरेली
+                        25th Vahini PAC, Raebareli
                     </span>
                 </div>
             </a>
 
             <!-- Desktop Menu -->
-            <div class="hidden lg:flex space-x-6 items-center font-medium text-sm lg:text-base">
-                <a href="#home" class="hover:text-secondary transition-colors">मुख्य पृष्ठ</a>
-                <a href="#about" class="hover:text-secondary transition-colors">हमारे बारे में</a>
-                <a href="#facilities" class="hover:text-secondary transition-colors">सुविधाएं</a>
-                <a href="#achievements" class="hover:text-secondary transition-colors">उपलब्धियां</a>
-                <a href="#gallery" class="hover:text-secondary transition-colors">गैलरी</a>
-                <a href="pages/fee-structure.html" class="hover:text-secondary transition-colors">शुल्क संरचना</a>
-                <a href="pages/login.html" class="flex items-center gap-2 hover:text-secondary transition-colors">
-                    <i class="fas fa-user-lock"></i>लॉगिन
+            <div class="hidden lg:flex space-x-2 xl:space-x-3 items-center font-medium text-[10px] xl:text-xs">
+                <a href="#home" class="hover:text-secondary transition-colors whitespace-nowrap">Home</a>
+                <a href="#about" class="hover:text-secondary transition-colors whitespace-nowrap">About Us</a>
+                <a href="#testimonial" class="hover:text-secondary transition-colors whitespace-nowrap">Testimonial</a>
+                <a href="#facilities" class="hover:text-secondary transition-colors whitespace-nowrap">Facilities</a>
+                <a href="#academics" class="hover:text-secondary transition-colors whitespace-nowrap">Academics</a>
+                <a href="#achievements" class="hover:text-secondary transition-colors whitespace-nowrap">Achievements</a>
+                <a href="#download" class="hover:text-secondary transition-colors whitespace-nowrap">Download</a>
+                <a href="#gallery" class="hover:text-secondary transition-colors whitespace-nowrap">Gallery</a>
+                <a href="#faq" class="hover:text-secondary transition-colors whitespace-nowrap">FAQ</a>
+                <a href="#contact" class="hover:text-secondary transition-colors whitespace-nowrap">Contact</a>
+                <a href="pages/login.html" class="flex items-center gap-1 bg-white/10 border border-white/20 px-3 py-1 rounded-full hover:bg-secondary hover:text-primary transition-all whitespace-nowrap text-white font-bold text-[10px]">
+                    <i class="fas fa-user-lock"></i>Login
                 </a>
                 <a href="pages/admission.html"
-                    class="bg-secondary text-primary px-5 py-2 rounded-full font-bold hover:bg-yellow-300 transition-colors shadow-md">प्रवेश
-                    लें</a>
+                    class="bg-secondary text-primary px-3 py-1.5 rounded-full font-bold hover:bg-yellow-300 hover:scale-105 transition-all shadow-md hover:shadow-lg whitespace-nowrap text-[10px]">Admissions</a>
                 <a href="new_index.html"
-                    class="flex items-center gap-1 bg-white border border-secondary text-primary px-4 py-2 rounded-full font-bold hover:bg-secondary transition-all shadow-sm text-xs">
-                    <i class="fas fa-language text-lg"></i> ENGLISH
+                    class="flex items-center gap-1 bg-white border border-secondary text-primary px-2 py-1 rounded-full font-bold hover:bg-secondary transition-all shadow-sm text-[10px] whitespace-nowrap">
+                    <i class="fas fa-language text-xs"></i> हिंदी
                 </a>
             </div>
 
@@ -480,18 +570,16 @@
         <div id="mobile-menu"
             class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50 overflow-hidden">
             <div class="flex flex-col p-4 space-y-4 font-medium text-center">
-                <a href="#home" class="hover:text-primary py-2 border-b border-gray-100">मुख्य पृष्ठ</a>
-                <a href="#about" class="hover:text-primary py-2 border-b border-gray-100">हमारे बारे में</a>
-                <a href="#facilities" class="hover:text-primary py-2 border-b border-gray-100">सुविधाएं</a>
-                <a href="#achievements" class="hover:text-primary py-2 border-b border-gray-100">उपलब्धियां</a>
-                <a href="#gallery" class="hover:text-primary py-2 border-b border-gray-100">गैलरी</a>
-                <a href="pages/fee-structure.html" class="hover:text-primary py-2 border-b border-gray-100">शुल्क
-                    संरचना</a>
-                <a href="pages/login.html"
-                    class="hover:text-primary py-2 border-b border-gray-100 flex items-center justify-center gap-2">
-                    <i class="fas fa-user-lock"></i>लॉगिन
-                </a>
-                <a href="#contact" class="bg-primary text-white px-5 py-2 rounded-lg font-bold">संपर्क करें</a>
+                <a href="#home" class="hover:text-primary py-2 border-b border-gray-100">Home</a>
+                <a href="#about" class="hover:text-primary py-2 border-b border-gray-100">About Us</a>
+                <a href="#testimonial" class="hover:text-primary py-2 border-b border-gray-100">Testimonial</a>
+                <a href="#facilities" class="hover:text-primary py-2 border-b border-gray-100">Facilities</a>
+                <a href="#academics" class="hover:text-primary py-2 border-b border-gray-100">Academics</a>
+                <a href="#achievements" class="hover:text-primary py-2 border-b border-gray-100">Achievements</a>
+                <a href="#download" class="hover:text-primary py-2 border-b border-gray-100">Download</a>
+                <a href="#gallery" class="hover:text-primary py-2 border-b border-gray-100">Gallery</a>
+                <a href="#faq" class="hover:text-primary py-2 border-b border-gray-100">FAQ</a>
+                <a href="#contact" class="bg-primary text-white px-5 py-2 rounded-lg font-bold">Contact Us</a>
             </div>
         </div>
     </nav>
@@ -503,35 +591,35 @@
                 <div
                     class="flex items-center gap-2 bg-white text-red-600 px-4 py-2 rounded-lg font-bold whitespace-nowrap">
                     <i class="fas fa-bullhorn animate-pulse"></i>
-                    <span class="hidden sm:inline">सूचना पट्ट</span>
-                    <span class="sm:hidden">सूचना</span>
+                    <span class="hidden sm:inline">Notice Board</span>
+                    <span class="sm:hidden">Notice</span>
                 </div>
                 <div class="flex-1 overflow-hidden">
                     <div class="news-ticker">
                         <div id="news-ticker-content" class="news-ticker-content">
                             <span class="news-item">
                                 <i class="fas fa-star text-yellow-300 mr-2"></i>
-                                सत्र 2026-27 के लिए प्रवेश प्रारंभ - अंतिम तिथि: 15 फरवरी 2027
+                                Admissions Open for Session 2026-27 – Last Date: 15 Feb 2027
                             </span>
                             <span class="news-item">
                                 <i class="fas fa-calendar-check text-yellow-300 mr-2"></i>
-                                वार्षिक परीक्षा: 1 मार्च से 15 मार्च 2027
+                                Annual Exams: 1 March to 15 March 2027
                             </span>
                             <span class="news-item">
                                 <i class="fas fa-trophy text-yellow-300 mr-2"></i>
-                                हमारे छात्रों ने अंतर-विद्यालय खेल प्रतियोगिता में 5 स्वर्ण पदक जीते
+                                Our students won 5 Gold Medals in Inter-School Sports Competition
                             </span>
                             <span class="news-item">
                                 <i class="fas fa-gift text-yellow-300 mr-2"></i>
-                                नए प्रवेश पर 10% छूट - सीमित समय के लिए
+                                10% Discount on New Admissions – Limited Time Offer
                             </span>
                             <span class="news-item">
                                 <i class="fas fa-book text-yellow-300 mr-2"></i>
-                                नई कंप्यूटर लैब और स्मार्ट क्लासरूम अब उपलब्ध
+                                New Computer Lab and Smart Classrooms Now Available
                             </span>
                             <span class="news-item">
                                 <i class="fas fa-bell text-yellow-300 mr-2"></i>
-                                अभिभावक-शिक्षक बैठक: 5 फरवरी 2027, सुबह 10 बजे
+                                Parent-Teacher Meeting: 5 Feb 2027, 10:00 AM
                             </span>
                         </div>
                     </div>
@@ -540,7 +628,8 @@
         </div>
     </div>
 
-    <section id="home" class="relative min-h-[60vh] flex items-center justify-center text-center bg-primary">
+    <section id="home" style="min-height: calc(60vh + 1cm);"
+        class="relative flex items-center justify-center text-center bg-primary">
 
         <img src="/assets/images/hero1.webp" width="1200" height="800" fetchpriority="high" decoding="async"
             alt="Police Modern School Building" class="absolute inset-0 w-full h-full object-cover z-0">
@@ -559,25 +648,25 @@
         <div class="max-w-4xl text-white animate-fade-in-up relative z-10">
             <div
                 class="inline-block bg-secondary text-primary font-bold px-4 py-1 rounded-full text-sm mb-4 shadow-lg transform -rotate-2">
-                <i class="fas fa-star mr-1"></i> सत्र 2026-27 के लिए प्रवेश प्रारंभ
+                <i class="fas fa-star mr-1"></i> Admissions Open for Session 2026-27
             </div>
             <h1 class="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight drop-shadow-md">
                 Best School in Raebareli – <br>
                 <span class="text-secondary">Police Modern School (PMS)</span>
             </h1>
             <p class="text-base md:text-lg mb-8 opacity-90 max-w-2xl mx-auto font-light">
-                25वीं वाहिनी पी.ए.सी., रायबरेली में आधुनिक सुविधाओं, अनुशासन और देखभाल के साथ प्री-नर्सरी से कक्षा 8 तक
-                गुणवत्तापूर्ण शिक्षा।
+                Quality education from Pre-Nursery to Class 8 with modern facilities, discipline and care at 25th Vahini
+                P.A.C., Raebareli.
             </p>
             <div class="flex flex-col md:flex-row gap-4 justify-center">
                 <a href="/pages/admission.html"
-                    class="bg-secondary text-primary px-6 py-3 rounded-full font-bold text-lg hover:bg-yellow-300 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                    अभी आवेदन करें <i class="fas fa-arrow-right ml-2"></i>
+                    class="bg-secondary text-primary px-8 py-3.5 rounded-full font-extrabold text-xl hover:bg-yellow-300 transition-all shadow-xl hover:shadow-2xl transform hover:scale-105 active:scale-95 flex items-center justify-center">
+                    Apply Now <i class="fas fa-arrow-right ml-2 animate-bounce-x"></i>
                 </a>
                 <a href="#about"
-                    class="bg-transparent border-2 border-white text-white px-6 py-3 rounded-full font-bold text-lg hover:bg-white hover:text-primary transition-all"
-                    aria-label="हमारे स्कूल के बारे में और जानें">
-                    और जानें
+                    class="bg-white/10 backdrop-blur-sm border-2 border-white/50 text-white px-8 py-3.5 rounded-full font-bold text-xl hover:bg-white hover:text-primary transition-all flex items-center justify-center"
+                    aria-label="Learn more about our school">
+                    Learn More
                 </a>
             </div>
         </div>
@@ -590,129 +679,81 @@
                 class="bg-blue-50 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 text-primary text-2xl">
                 <i class="fas fa-book-reader"></i>
             </div>
-            <h3 class="text-lg font-bold mb-2">समग्र शिक्षा</h3>
-            <p class="text-gray-600 text-sm">शैक्षणिक उत्कृष्टता और नैतिक मूल्यों पर केंद्रित संतुलित पाठ्यक्रम।</p>
+            <h3 class="text-lg font-bold mb-2">Holistic Education</h3>
+            <p class="text-gray-600 text-sm">A balanced curriculum focused on academic excellence and moral values.</p>
         </div>
         <div class="bg-white p-6 rounded-2xl shadow-xl text-center card-hover border-b-4 border-secondary">
             <div
                 class="bg-yellow-50 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 text-secondary text-2xl">
                 <i class="fas fa-shield-alt"></i>
             </div>
-            <h3 class="text-lg font-bold mb-2">सुरक्षित वातावरण</h3>
-            <p class="text-gray-600 text-sm">25वीं वाहिनी पी.ए.सी. के अंदर स्थित, हर बच्चे के लिए सर्वोच्च सुरक्षा
-                सुनिश्चित करना।</p>
+            <h3 class="text-lg font-bold mb-2">Safe Environment</h3>
+            <p class="text-gray-600 text-sm">Located inside 25th Vahini P.A.C., ensuring maximum security for every
+                child.</p>
         </div>
         <div class="bg-white p-6 rounded-2xl shadow-xl text-center card-hover border-b-4 border-primary">
             <div
                 class="bg-blue-50 w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-3 text-primary text-2xl">
                 <i class="fas fa-chalkboard-teacher"></i>
             </div>
-            <h3 class="text-lg font-bold mb-2">विशेषज्ञ शिक्षक</h3>
-            <p class="text-gray-600 text-sm">प्रारंभिक बचपन के विकास के लिए समर्पित योग्य और देखभाल करने वाले शिक्षक।
+            <h3 class="text-lg font-bold mb-2">Expert Teachers</h3>
+            <p class="text-gray-600 text-sm">Qualified and caring teachers dedicated to early childhood development.
             </p>
         </div>
     </div>
 
     <!-- About Section -->
-    <section id="about" class="py-14 bg-white">
+    <section id="about" class="py-20 bg-white">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row items-center gap-8">
+            <div class="flex flex-col md:flex-row items-center gap-12">
                 <div class="md:w-1/2 relative">
-                    <div class="absolute -top-4 -left-4 w-20 h-20 bg-secondary rounded-full opacity-20 blob-shape">
+                    <div class="absolute -top-4 -left-4 w-20 h-24 bg-secondary rounded-full opacity-20 blob-shape">
                     </div>
-                    <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-primary rounded-full opacity-10 blob-shape">
+                    <div class="absolute -bottom-4 -right-4 w-24 h-28 bg-primary rounded-full opacity-10 blob-shape">
                     </div>
                     <img src="/assets/images/school-building.jpg" alt="Police Modern School Raebareli Building"
-                        loading="lazy" decoding="async" width="800" height="630"
-                        class="rounded-2xl shadow-2xl relative z-10 w-full object-cover h-[400px] md:h-[630px] about-image-premium">
+                        loading="lazy" decoding="async" width="800" height="320"
+                        class="rounded-2xl shadow-2xl relative z-10 w-full object-cover h-64 md:h-80">
                 </div>
                 <div class="md:w-1/2">
-                    <span class="block text-primary font-bold uppercase tracking-widest text-sm mb-2">हमारे स्कूल के
-                        बारे में</span>
-                    <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800"><span class="text-primary">पुलिस
-                            मॉडर्न स्कूल</span> में बच्चों के उज्ज्वल भविष्य का निर्माण</h2>
-
-                    <!-- Visible Content on Load -->
-                    <div id="about-content-visible">
-                        <h3 class="text-xl md:text-2xl font-bold mb-4 text-gray-800">Best School in Raebareli for
-                            Quality Education</h3>
-                        <p class="text-gray-600 mb-6 leading-relaxed text-sm">
-                            Police Modern School is widely recognized as the <strong>best school in Raebareli</strong>
-                            for disciplined and value-based education.
-                            Located inside the secure campus of 25वीं वाहिनी PAC, our school provides a safe and
-                            structured learning environment for children from LKG to Class 8.
-                            Parents searching for the <strong>best PMS school</strong> or the <strong>top school in
-                                Raebareli</strong> consistently choose PMS for its balanced academic system and moral
-                            foundation.
-                        </p>
-                        <ul class="list-disc pl-6 text-gray-600 space-y-2 mb-6 text-sm">
-                            <li>Safe campus inside 25वीं वाहिनी PAC</li>
-                            <li>Experienced and dedicated teachers</li>
-                            <li>Smart classrooms and computer education</li>
-                            <li>Balanced focus on academics, sports and discipline</li>
-                            <li>Regular parent-teacher interaction</li>
-                        </ul>
-                    </div>
-
-                    <!-- Expandable Content (Initially Hidden) -->
-                    <div id="about-content-expanded" class="hidden space-y-4">
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            As a developing <strong>best CBSE school in Raebareli</strong> model institution, we focus
-                            on conceptual clarity, practical understanding and personality development. Our classrooms
-                            are designed to encourage participation, curiosity and structured learning. Every child
-                            receives individual attention to ensure academic growth and confidence.
-                        </p>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            Being the <strong>best school in Raebareli</strong> is not just a claim. It is the result of
-                            consistent academic performance, disciplined campus management and parent trust. Our school
-                            operates within a protected PAC environment which ensures maximum safety.
-                        </p>
-                        <p class="text-gray-600 leading-relaxed text-sm">
-                            At Police Modern School, we believe education is not only about marks but about character
-                            formation. Our mission is to provide structured and value-based learning. This long-term
-                            vision is what makes PMS consistently recognized as the <strong>best school in
-                                Raebareli</strong>.
-                        </p>
-                    </div>
-
-                    <!-- Toggle Button -->
-                    <button id="about-toggle-btn"
-                        class="text-primary font-bold hover:text-secondary transition-colors inline-flex items-center text-sm mb-6 outline-none"
-                        aria-label="स्कूल के बारे में और पढ़ें">
-                        और जानें <i class="fas fa-chevron-down ml-2 transform transition-transform"
-                            id="about-toggle-icon"></i>
-                    </button>
-
-                    <!-- Features List (Always Visible) -->
-                    <ul class="space-y-3 mb-6 border-t pt-6">
+                    <span class="block text-primary font-bold uppercase tracking-widest text-sm mb-2">About Our
+                        School</span>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-800"><span class="text-primary">Police
+                            Modern School</span> – Building a Bright Future for Children</h2>
+                    <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+                        Located inside the secure campus of <strong>25th Vahini PAC, Raebareli</strong>, Police Modern School
+                        is committed to providing high-quality primary education. We believe every child is unique
+                        and deserves an environment that fosters curiosity, discipline and joy. We build values,
+                        ethics and responsibility alongside education.
+                    </p>
+                    <ul class="space-y-3 mb-6">
                         <li class="flex items-start gap-3">
                             <i class="fas fa-check-circle text-secondary mt-1"></i>
-                            <span class="text-gray-700 text-sm"><strong>कक्षाएं:</strong> एलकेजी (LKG) से कक्षा 8
-                                तक</span>
+                            <span class="text-gray-700 text-sm"><strong>Classes:</strong> LKG to Class 8</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i class="fas fa-check-circle text-secondary mt-1"></i>
-                            <span class="text-gray-700 text-sm"><strong>फोकस:</strong> शैक्षणिक, खेल और सांस्कृतिक
-                                विकास</span>
+                            <span class="text-gray-700 text-sm"><strong>Focus:</strong> Academic, Sports &amp; Cultural
+                                Development</span>
                         </li>
                         <li class="flex items-start gap-3">
                             <i class="fas fa-check-circle text-secondary mt-1"></i>
-                            <span class="text-gray-700 text-sm"><strong>मूल्य:</strong> अनुशासन, सम्मान और अखंडता</span>
+                            <span class="text-gray-700 text-sm"><strong>Values:</strong> Discipline, Respect &amp;
+                                Integrity</span>
                         </li>
                     </ul>
-                    <a href="https://wa.me/919506170180?text=नमस्ते!%20मैं%20प्रधानाचार्य%20जी%20से%20बात%20करना%20चाहता%20हूं।"
+                    <a href="https://wa.me/919506170180?text=Hello!%20I%20would%20like%20to%20speak%20with%20the%20Principal."
                         target="_blank"
                         class="text-primary font-bold hover:text-secondary transition-colors inline-flex items-center text-sm">
-                        प्रधानाचार्य से संपर्क करें <i class="fab fa-whatsapp ml-2"></i>
+                        Contact the Principal <i class="fab fa-whatsapp ml-2"></i>
                     </a>
                 </div>
             </div>
         </div>
-        </div>
     </section>
 
     <!-- Principal's Message & Testimonials Section (Side by Side) -->
-    <section class="py-8 bg-soft" data-aos="fade-up">
+    <section id="testimonial" class="py-14 bg-white" data-aos="fade-up">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
@@ -724,29 +765,27 @@
                                 loading="lazy" decoding="async" width="96" height="96"
                                 class="w-full h-full object-cover">
                         </div>
-                        <h3 class="text-white font-bold text-lg">लाल भरत कुमार पाल (IPS)</h3>
-                        <p class="text-blue-200 text-xs">प्रबन्धक (पुलिस मॉडर्न स्कूल, रायबरेली)</p>
-                        <p class="text-blue-200 text-xs">सेनानायक, 25वीं वाहिनी पी.ए.सी., रायबरेली</p>
+                        <h3 class="text-white font-bold text-lg">Lal Bharat Kumar Pal (IPS)</h3>
+                        <p class="text-blue-200 text-xs">Manager (Police Modern School, Raebareli)</p>
+                        <p class="text-blue-200 text-xs">Commandant, 25th Vahini P.A.C., Raebareli</p>
                     </div>
                     <div class="p-4">
-                        <h2 class="text-xl font-bold text-gray-800 mb-3">प्रबन्धक का संदेश</h2>
+                        <h2 class="text-xl font-bold text-gray-800 mb-3">Manager's Message</h2>
                         <p class="text-gray-600 mb-2 leading-relaxed text-xs">
-                            प्रिय अभिभावकों और छात्रों,
+                            Dear Parents and Students,
                         </p>
                         <p class="text-gray-600 mb-2 leading-relaxed text-xs">
-                            पुलिस मॉडर्न स्कूल में आपका स्वागत है। हमारा उद्देश्य केवल शैक्षणिक उत्कृष्टता प्रदान करना
-                            नहीं है, बल्कि प्रत्येक बच्चे के समग्र विकास को सुनिश्चित करना है। हम अनुशासन, नैतिक मूल्यों
-                            और
-                            आधुनिक शिक्षा के संतुलन में विश्वास करते हैं।
+                            Welcome to Police Modern School. Our aim is not only to provide academic excellence,
+                            but to ensure the holistic development of each child. We believe in a balance of
+                            discipline, moral values and modern education.
                         </p>
                         <p class="text-gray-600 leading-relaxed text-xs mb-3">
-                            25वीं वाहिनी पी.ए.सी. के सुरक्षित परिसर में, हम आपके बच्चों के उज्ज्वल भविष्य की नींव रखने
-                            के
-                            लिए प्रतिबद्ध हैं।
+                            Within the secure premises of 25th Vahini P.A.C., we are committed to laying the
+                            foundation of a bright future for your children.
                         </p>
                         <div class="mt-3">
-                            <p class="text-primary font-bold text-sm">शुभकामनाओं सहित,</p>
-                            <p class="text-gray-700 font-hand text-lg">लाल भरत कुमार पाल (IPS)</p>
+                            <p class="text-primary font-bold text-sm">With Best Wishes,</p>
+                            <p class="text-gray-700 font-hand text-lg">Lal Bharat Kumar Pal (IPS)</p>
                         </div>
                     </div>
                 </div>
@@ -754,9 +793,9 @@
                 <!-- Testimonials -->
                 <div class="bg-white rounded-2xl shadow-xl p-4">
                     <div class="text-center mb-4">
-                        <h2 class="text-xl font-bold text-gray-800 mb-2">अभिभावकों की राय</h2>
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">Parent Reviews</h2>
                         <div class="w-16 h-1 bg-secondary mx-auto rounded-full"></div>
-                        <p class="text-gray-600 mt-2 text-xs">हमारे स्कूल के बारे में अभिभावक क्या कहते हैं</p>
+                        <p class="text-gray-600 mt-2 text-xs">What parents say about our school</p>
                     </div>
 
                     <div class="testimonial-carousel relative px-8">
@@ -772,10 +811,12 @@
                             <i class="fas fa-chevron-right text-xs"></i>
                         </button>
 
-                        <div class="testimonial-slides-container">
-                            <!-- Testimonials will be injected here by main.js for performance -->
-                            <div class="text-center py-10">
-                                <i class="fas fa-spinner fa-spin text-primary text-2xl"></i>
+                        <div class="testimonial-slides-container min-h-[150px]">
+                            <!-- Skeleton Loader for Testimonials -->
+                            <div id="testimonial-skeleton" class="text-center p-6">
+                                <div class="skeleton w-20 h-4 mb-4 mx-auto"></div>
+                                <div class="skeleton w-full h-12 mb-4"></div>
+                                <div class="skeleton w-32 h-4 mx-auto"></div>
                             </div>
                         </div>
 
@@ -795,19 +836,16 @@
         </div>
     </section>
 
-    <!-- Services / Facilities -->
     <section id="facilities" class="py-14 bg-soft">
         <div class="container mx-auto px-6">
             <div class="text-center mb-10">
                 <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">
                     Why We Are the Best School in Raebareli
                 </h2>
-                <h3 class="text-xl font-bold text-gray-800 mb-3">हमारी मुख्य सुविधाएं</h3>
+                <h3 class="text-xl font-bold text-gray-800 mb-3">Our Key Facilities</h3>
                 <div class="w-16 h-1 bg-secondary mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm">हम अपने सभी छात्रों के लिए एक अनुशासित, सुरक्षित
-                    एवं
-                    अनुकूल शिक्षण
-                    वातावरण प्रदान करते हैं।</p>
+                <p class="text-gray-600 mt-3 max-w-2xl mx-auto text-sm">We provide a disciplined, safe and conducive
+                    learning environment for all our students.</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -817,10 +855,9 @@
                         class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center text-primary text-xl mb-3 group-hover:bg-primary group-hover:text-white transition-colors">
                         <i class="fas fa-bus-alt"></i>
                     </div>
-                    <h3 class="text-lg font-bold mb-2">परिवहन सेवा</h3>
-                    <p class="text-gray-600 text-xs">जीपीएस ट्रैकिंग और पुलिस सुरक्षा से सुसज्जित रायबरेली के सभी
-                        ग्रामीण और शहरी क्षेत्रों को कवर करने वाली
-                        सुरक्षित बस सेवा।</p>
+                    <h3 class="text-lg font-bold mb-2">Transport Service</h3>
+                    <p class="text-gray-600 text-xs">Safe bus service with GPS tracking and police security covering all
+                        rural and urban areas of Raebareli.</p>
                 </div>
 
                 <!-- Service 2 -->
@@ -829,9 +866,9 @@
                         class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center text-yellow-600 text-xl mb-3 group-hover:bg-secondary group-hover:text-primary transition-colors">
                         <i class="fas fa-users-cog"></i>
                     </div>
-                    <h3 class="text-lg font-bold mb-2">नियमित पीटीएम (PTM)</h3>
-                    <p class="text-gray-600 text-xs">बच्चे की प्रगति और विकास पर चर्चा करने के लिए नियमित अभिभावक-शिक्षक
-                        बैठकें।</p>
+                    <h3 class="text-lg font-bold mb-2">Regular PTM</h3>
+                    <p class="text-gray-600 text-xs">Regular parent-teacher meetings to discuss each child's progress
+                        and development.</p>
                 </div>
 
                 <!-- Service 3 -->
@@ -840,9 +877,9 @@
                         class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center text-green-600 text-xl mb-3 group-hover:bg-green-600 group-hover:text-white transition-colors">
                         <i class="fas fa-futbol"></i>
                     </div>
-                    <h3 class="text-lg font-bold mb-2">खेल का मैदान</h3>
-                    <p class="text-gray-600 text-xs">स्वास्थ्य के विकास के लिए बड़ा खेल का मैदान और संरचित शारीरिक
-                        शिक्षा।</p>
+                    <h3 class="text-lg font-bold mb-2">Sports Ground</h3>
+                    <p class="text-gray-600 text-xs">Large playground and structured physical education for healthy
+                        development.</p>
                 </div>
 
                 <!-- Service 4 -->
@@ -851,9 +888,9 @@
                         class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 text-xl mb-3 group-hover:bg-red-600 group-hover:text-white transition-colors">
                         <i class="fas fa-laptop-code"></i>
                     </div>
-                    <h3 class="text-lg font-bold mb-2">स्मार्ट क्लासेज</h3>
-                    <p class="text-gray-600 text-xs">सीखने को इंटरैक्टिव बनाने के लिए आधुनिक शिक्षण सहायता और डिजिटल
-                        कक्षाओं के साथ कंप्यूटर शिक्षा की विशेष व्यवस्था।</p>
+                    <h3 class="text-lg font-bold mb-2">Smart Classes</h3>
+                    <p class="text-gray-600 text-xs">Computer education with modern teaching aids and digital classrooms
+                        to make learning interactive.</p>
                 </div>
             </div>
         </div>
@@ -870,12 +907,12 @@
         <div class="container mx-auto px-6 relative z-10 text-white">
             <div class="flex flex-col md:flex-row items-center justify-between mb-8">
                 <div>
-                    <h2 class="text-2xl md:text-3xl font-bold mb-2">शैक्षणिक कार्यक्रम</h2>
-                    <p class="text-blue-200 text-sm">हर आयु वर्ग के लिए अनुकूलित पाठ्यक्रम।</p>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2">Academic Programmes</h2>
+                    <p class="text-blue-200 text-sm">Curriculum tailored for every age group.</p>
                 </div>
                 <a href="pages/brochure.html"
                     class="mt-3 md:mt-0 bg-white text-primary px-5 py-2 rounded-full font-bold hover:bg-secondary transition-colors text-sm">
-                    विवरणिका (Prospectus) देखें
+                    View Prospectus
                 </a>
             </div>
 
@@ -887,15 +924,16 @@
                         <div
                             class="bg-secondary text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                             P</div>
-                        <h3 class="text-lg md:text-xl font-bold">प्री-प्राइमरी विंग</h3>
+                        <h3 class="text-lg md:text-xl font-bold">Pre-Primary Wing</h3>
                     </div>
-                    <p class="mb-3 opacity-90 text-sm">इसमें एलकेजी (LKG) और यूकेजी (UKG) शामिल हैं।</p>
+                    <p class="mb-3 opacity-90 text-sm">Includes LKG and UKG.</p>
                     <ul class="space-y-2 text-xs">
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> खेल-खेल में
-                            शिक्षा (Play-way Method)</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> गतिविधि आधारित
-                            शिक्षा</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> व्यक्तित्व विकास
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Play-way Method
+                            of Learning</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Activity-Based
+                            Education</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Personality
+                            Development
                         </li>
                     </ul>
                 </div>
@@ -907,16 +945,17 @@
                         <div
                             class="bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                             1-5</div>
-                        <h3 class="text-lg md:text-xl font-bold">प्राइमरी विंग</h3>
+                        <h3 class="text-lg md:text-xl font-bold">Primary Wing</h3>
                     </div>
-                    <p class="mb-3 opacity-90 text-sm">इसमें कक्षा 1 से कक्षा 5 तक शामिल हैं।</p>
+                    <p class="mb-3 opacity-90 text-sm">Includes Class 1 to Class 5.</p>
                     <ul class="space-y-2 text-xs">
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> सीबीएसई पाठ्यक्रम
-                            पर आधारित</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> कंप्यूटर शिक्षा
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> CBSE Curriculum
+                            Based</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Computer
+                            Education
                         </li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> पाठ्येतर
-                            गतिविधियां (Extra-curricular)</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Extra-Curricular
+                            Activities</li>
                     </ul>
                 </div>
 
@@ -927,49 +966,29 @@
                         <div
                             class="bg-white text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg">
                             6-8</div>
-                        <h3 class="text-lg md:text-xl font-bold">जूनियर विंग</h3>
+                        <h3 class="text-lg md:text-xl font-bold">Junior Wing</h3>
                     </div>
-                    <p class="mb-3 opacity-90 text-sm">इसमें कक्षा 6 से कक्षा 8 तक शामिल हैं।</p>
+                    <p class="mb-3 opacity-90 text-sm">Includes Class 6 to Class 8.</p>
                     <ul class="space-y-2 text-xs">
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> अनुभवी और
-                            विषय विशेषज्ञ शिक्षक</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> विज्ञान और
-                            कंप्यूटर प्रयोगशालाएं</li>
-                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> खेलकूद और
-                            सर्वांगीण विकास</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Experienced
+                            Subject Specialist Teachers</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Science and
+                            Computer Labs</li>
+                        <li class="flex items-center gap-2"><i class="fas fa-star text-secondary"></i> Sports and
+                            All-Round Development</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-14 bg-white">
-        <div class="container mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-6">
-                Best School in Raebareli for Holistic Education
-            </h2>
-            <p class="text-gray-600 mb-4 text-center max-w-3xl mx-auto">
-                Choosing the best school in Raebareli is an important decision for every parent.
-                Police Modern School focuses on academic excellence, discipline and character building.
-            </p>
-            <p class="text-gray-600 mb-4 text-center max-w-3xl mx-auto">
-                Our structured teaching methods, regular PTM meetings and modern infrastructure
-                make us one of the top schools in Raebareli.
-            </p>
-            <p class="text-gray-600 text-center max-w-3xl mx-auto">
-                Admissions are open for the academic session 2026-27.
-                Visit our campus at 25वीं वाहिनी PAC to experience why we are recognized as the best school in
-                Raebareli.
-            </p>
-        </div>
-    </section>
 
     <!-- Achievements Section (New) -->
     <section id="achievements" class="py-20 bg-white">
         <div class="container mx-auto px-6">
             <div class="text-center mb-16">
-                <span class="text-primary font-bold uppercase tracking-widest text-sm">हमारी सफलता</span>
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">उपलब्धियां और पुरस्कार</h2>
+                <span class="text-primary font-bold uppercase tracking-widest text-sm">Our Success</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-2">Achievements &amp; Awards</h2>
                 <div class="w-20 h-1 bg-secondary mx-auto rounded-full mt-4"></div>
             </div>
 
@@ -981,8 +1000,8 @@
                         class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4 text-yellow-600 text-3xl">
                         <i class="fas fa-trophy"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">सर्वश्रेष्ठ प्राथमिक विद्यालय</h3>
-                    <p class="text-gray-600 text-sm">2023 में जिले का सर्वश्रेष्ठ अनुशासित स्कूल पुरस्कार।</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Best Primary School</h3>
+                    <p class="text-gray-600 text-sm">Best Disciplined School Award in the district in 2023.</p>
                 </div>
 
                 <!-- Achievement 2 -->
@@ -992,8 +1011,8 @@
                         class="w-20 h-20 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-primary text-3xl">
                         <i class="fas fa-medal"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">खेल प्रतियोगिता</h3>
-                    <p class="text-gray-600 text-sm">अंतर-विद्यालय खेल प्रतियोगिता में 5 स्वर्ण पदक।</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Sports Competition</h3>
+                    <p class="text-gray-600 text-sm">5 Gold Medals in Inter-School Sports Competition.</p>
                 </div>
 
                 <!-- Achievement 3 -->
@@ -1003,8 +1022,8 @@
                         class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 text-green-600 text-3xl">
                         <i class="fas fa-leaf"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">हरित परिसर</h3>
-                    <p class="text-gray-600 text-sm">स्वच्छ भारत अभियान के तहत 'ग्रीन कैंपस' पुरस्कार।</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Green Campus</h3>
+                    <p class="text-gray-600 text-sm">'Green Campus' Award under Swachh Bharat Abhiyan.</p>
                 </div>
 
                 <!-- Achievement 4 -->
@@ -1014,20 +1033,20 @@
                         class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600 text-3xl">
                         <i class="fas fa-graduation-cap"></i>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">100% परिणाम</h3>
-                    <p class="text-gray-600 text-sm">कक्षा 5 के छात्रों का लगातार 3 वर्षों से शत-प्रतिशत परिणाम।</p>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">100% Results</h3>
+                    <p class="text-gray-600 text-sm">100% pass result for Class 5 students for 3 consecutive years.</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Downloads Section -->
-    <section class="py-12 bg-white" data-aos="fade-up">
+    <section id="download" class="py-12 bg-white" data-aos="fade-up">
         <div class="container mx-auto px-6">
             <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">डाउनलोड</h2>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Downloads</h2>
                 <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-4">महत्वपूर्ण दस्तावेज़ और फॉर्म</p>
+                <p class="text-gray-600 mt-4">Important Documents &amp; Forms</p>
             </div>
 
             <!-- Compact Grid: 5 items in one row on large screens -->
@@ -1038,7 +1057,7 @@
                     <div class="mb-3">
                         <i class="fas fa-file-pdf text-4xl text-red-600 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">प्रवेश फॉर्म</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Admission Form</h3>
                     <a href="/assets/downloads/admission-form.pdf" download
                         class="block w-full bg-white border border-primary text-primary text-lg py-2 rounded hover:bg-primary hover:text-white transition-colors mt-2 font-semibold">
                         <i class="fas fa-download mr-2"></i>Download
@@ -1051,7 +1070,7 @@
                     <div class="mb-3">
                         <i class="fas fa-book text-4xl text-blue-600 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">विवरणिका</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Prospectus</h3>
                     <a href="/assets/downloads/prospectus.pdf" download
                         class="block w-full bg-white border border-primary text-primary text-lg py-2 rounded hover:bg-primary hover:text-white transition-colors mt-2 font-semibold">
                         <i class="fas fa-download mr-2"></i>Download
@@ -1065,7 +1084,7 @@
                         <i
                             class="fas fa-rupee-sign text-4xl text-green-600 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">फीस संरचना</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Fee Structure</h3>
                     <a href="/assets/downloads/fee-structure.pdf" download
                         class="block w-full bg-white border border-primary text-primary text-lg py-2 rounded hover:bg-primary hover:text-white transition-colors mt-2 font-semibold">
                         <i class="fas fa-download mr-2"></i>Download
@@ -1079,7 +1098,7 @@
                         <i
                             class="fas fa-list-ul text-4xl text-orange-600 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">नियम</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Rules</h3>
                     <a href="/assets/downloads/rules-regulations.pdf" download
                         class="block w-full bg-white border border-primary text-primary text-lg py-2 rounded hover:bg-primary hover:text-white transition-colors mt-2 font-semibold">
                         <i class="fas fa-download mr-2"></i>Download
@@ -1093,7 +1112,7 @@
                         <i
                             class="fas fa-tshirt text-4xl text-indigo-600 group-hover:scale-110 transition-transform"></i>
                     </div>
-                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">यूनिफॉर्म</h3>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2 truncate">Uniform</h3>
                     <a href="/assets/downloads/dress-code.png" download
                         class="block w-full bg-white border border-primary text-primary text-lg py-2 rounded hover:bg-primary hover:text-white transition-colors mt-2 font-semibold">
                         <i class="fas fa-download mr-2"></i>Download
@@ -1104,40 +1123,51 @@
     </section>
 
 
-    <!-- Gallery Section (Overlap Gallery Slider) -->
-    <!-- Gallery Section (Overlap Gallery Slider) -->
     <section id="gallery" class="py-6 bg-soft overflow-hidden">
         <div class="container mx-auto px-6">
             <div class="text-center mb-6">
-                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">फोटो गैलरी</h2>
+                <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Photo Gallery</h2>
                 <div class="w-16 h-1 bg-secondary mx-auto rounded-full"></div>
-                <p class="text-gray-600 mt-2 text-sm">स्कूल की गतिविधियों की कुछ झलकियाँ</p>
+                <p class="text-gray-600 mt-2 text-sm">Glimpses of school activities</p>
             </div>
         </div>
 
         <div class="gallery-wrapper w-full">
-            <!-- <div class="gallery-label">Premium Showcase</div> -->
-
             <div id="slider" class="slider-container">
-                <!-- Gallery items will be injected here by main.js for performance -->
-                <div class="text-center py-20 w-full">
-                    <i class="fas fa-spinner fa-spin text-primary text-3xl"></i>
-                </div>
+                <div class="slide" data-position="0"><img src="/assets/images/gallery/img1.webp" alt="School Activity 1"
+                        loading="lazy"></div>
+                <div class="slide" data-position="1"><img src="/assets/images/gallery/img2.webp" alt="School Activity 2"
+                        loading="lazy"></div>
+                <div class="slide" data-position="2"><img src="/assets/images/gallery/img3.webp" alt="School Activity 3"
+                        loading="lazy"></div>
+                <div class="slide" data-position="3"><img src="/assets/images/gallery/img4.webp" alt="School Activity 4"
+                        loading="lazy"></div>
+                <div class="slide" data-position="4"><img src="/assets/images/gallery/img5.webp" alt="School Activity 5"
+                        loading="lazy"></div>
+                <div class="slide" data-position="5"><img src="/assets/images/gallery/img6.webp" alt="School Activity 6"
+                        loading="lazy"></div>
+                <div class="slide" data-position="6"><img src="/assets/images/gallery/img7.webp" alt="School Activity 7"
+                        loading="lazy"></div>
+                <div class="slide" data-position="7"><img src="/assets/images/gallery/img8.webp" alt="School Activity 8"
+                        loading="lazy"></div>
+                <div class="slide" data-position="8"><img src="/assets/images/gallery/img9.webp" alt="School Activity 9"
+                        loading="lazy"></div>
+                <div class="slide" data-position="9"><img src="/assets/images/gallery/img10.webp"
+                        alt="School Activity 10" loading="lazy"></div>
             </div>
         </div>
     </section>
 
 
     <!-- FAQ & Map Section (Side by Side) -->
-    <section class="py-16 bg-soft" data-aos="fade-up">
+    <section id="faq" class="py-16 bg-soft" data-aos="fade-up">
         <div class="container mx-auto px-6">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                 <!-- FAQ Section -->
                 <div>
                     <div class="text-center mb-8">
-                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">अक्सर पूछे जाने वाले
-                            प्रश्न</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">Frequently Asked Questions</h2>
                         <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
                     </div>
 
@@ -1259,7 +1289,7 @@
                 <!-- Google Maps Section -->
                 <div>
                     <div class="text-center mb-8">
-                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">हमारा स्थान</h2>
+                        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-3">Our Location</h2>
                         <div class="w-20 h-1 bg-secondary mx-auto rounded-full"></div>
                     </div>
                     <div class="w-full h-96 lg:h-full rounded-2xl overflow-hidden shadow-xl relative group">
@@ -1299,9 +1329,9 @@
                 <!-- School Info -->
                 <div>
                     <div class="flex items-center gap-3 mb-6">
-                        <img src="/assets/images/logo/logo.png" alt="Police Modern School Raebareli Logo"
-                            class="w-12 h-12 object-contain">
-                        <span class="text-2xl font-bold">पी.एम.एस. रायबरेली</span>
+                        <img src="/assets/images/logo/logo.png" alt="Police Modern School Raebareli Logo" width="48"
+                            height="48" class="w-12 h-12 object-contain" loading="lazy">
+                        <span class="text-2xl font-bold">P.M.S. Raebareli</span>
                     </div>
                     <p class="text-gray-400 mb-6">
                         Recognized as the <strong>best school in Raebareli</strong>,
@@ -1311,30 +1341,30 @@
                     <!-- SOCIAL MEDIA LINKS - Change URLs below as needed -->
                     <div class="flex space-x-4">
                         <!-- Facebook Link - CHANGE URL HERE -->
-                        <a href="https://t.me/sathyadeva" target="_blank"
+                        <a href="https://www.facebook.com/p/Police-Modern-School25BnPAC-Raebareli-100068911792182/"
+                            target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i
                                 class="fab fa-facebook-f"></i></a>
                         <!-- Instagram Link - CHANGE URL HERE -->
-                        <a href="https://t.me/sathyadeva" target="_blank"
+                        <a href="https://www.instagram.com/policemordenschool/" target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i
                                 class="fab fa-instagram"></i></a>
                         <!-- WhatsApp Link - CHANGE URL HERE -->
-                        <a href="https://t.me/sathyadeva" target="_blank"
+                        <a href="https://x.com/PmsRaebareli" target="_blank"
                             class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-secondary hover:text-primary transition-all"><i
-                                class="fab fa-whatsapp"></i></a>
+                                class="fab fa-twitter"></i></a>
                     </div>
                 </div>
 
                 <!-- Contact Info -->
                 <div>
                     <h3 class="text-xl font-bold mb-6 text-white border-b-2 border-secondary inline-block pb-2">
-                        संपर्क
-                        सूत्र</h3>
+                        Contact
+                        Info</h3>
                     <ul class="space-y-4">
                         <li class="flex items-start gap-4">
                             <i class="fas fa-map-marker-alt text-secondary mt-1"></i>
-                            <span class="text-gray-400">25वीं वाहिनी पी.ए.सी.,<br>रायबरेली, उत्तर
-                                प्रदेश</span>
+                            <span class="text-gray-400">25th Vahini P.A.C.,<br>Raebareli, Uttar Pradesh</span>
                         </li>
                         <li class="flex items-start gap-4">
                             <i class="fas fa-phone-alt text-secondary mt-1"></i>
@@ -1351,32 +1381,32 @@
                         </li>
                         <li class="flex items-start gap-4">
                             <i class="fas fa-clock text-secondary mt-1"></i>
-                            <span class="text-gray-400">सोम - शनि: सुबह 8:00 - दोपहर 2:00</span>
+                            <span class="text-gray-400">Mon - Sat: 8:00 AM - 2:00 PM</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Inquiry Form -->
                 <div class="bg-gray-800 p-6 rounded-xl">
-                    <h3 class="text-lg font-bold mb-4">त्वरित पूछताछ</h3>
+                    <h3 class="text-lg font-bold mb-4">Quick Inquiry</h3>
                     <form id="contact-form" class="space-y-3">
-                        <input type="text" name="name" placeholder="आपका नाम" required
+                        <input type="text" name="name" placeholder="Your Name" required
                             class="w-full bg-gray-700 border-none rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-secondary outline-none">
-                        <input type="email" name="email" placeholder="ईमेल" required
+                        <input type="email" name="email" placeholder="Email" required
                             class="w-full bg-gray-700 border-none rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-secondary outline-none">
-                        <input type="tel" name="phone" placeholder="फ़ोन नंबर" required
+                        <input type="tel" name="phone" placeholder="Phone Number" required
                             class="w-full bg-gray-700 border-none rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-secondary outline-none">
-                        <textarea name="message" placeholder="आपका संदेश" rows="3" required
+                        <textarea name="message" placeholder="Your Message" rows="3" required
                             class="w-full bg-gray-700 border-none rounded-lg px-4 py-2 text-white focus:ring-2 focus:ring-secondary outline-none"></textarea>
                         <button type="submit"
-                            class="w-full bg-secondary text-primary font-bold py-2 rounded-lg hover:bg-yellow-300 transition-colors">संदेश
-                            भेजें</button>
+                            class="w-full bg-secondary text-primary font-bold py-2 rounded-lg hover:bg-yellow-300 transition-colors">Send
+                            Message</button>
                     </form>
                 </div>
             </div>
 
             <div class="border-t border-gray-800 pt-8 text-center text-gray-500 text-sm">
-                <p>&copy; 2026 पुलिस मॉडर्न स्कूल, रायबरेली। सर्वाधिकार सुरक्षित।</p>
+                <p>&copy; 2026 Police Modern School, Raebareli. All Rights Reserved.</p>
                 <p>&copy; made with ❤️ by Sathya Deva</p>
             </div>
         </div>
@@ -1721,10 +1751,10 @@
 
                     if (isHidden) {
                         aboutContentExpanded.classList.remove('hidden');
-                        aboutToggleBtn.innerHTML = 'कम दिखाएं <i class="fas fa-chevron-up ml-2" id="about-toggle-icon"></i>';
+                        aboutToggleBtn.innerHTML = 'Show Less <i class="fas fa-chevron-up ml-2" id="about-toggle-icon"></i>';
                     } else {
                         aboutContentExpanded.classList.add('hidden');
-                        aboutToggleBtn.innerHTML = 'और जानें <i class="fas fa-chevron-down ml-2" id="about-toggle-icon"></i>';
+                        aboutToggleBtn.innerHTML = 'Learn More <i class="fas fa-chevron-down ml-2" id="about-toggle-icon"></i>';
                     }
                 });
             }

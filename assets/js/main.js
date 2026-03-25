@@ -96,6 +96,39 @@ const testimonialsHindi = [
     { stars: 5, text: "मुझे गर्व है कि मेरा बच्चा इस गरिमापूर्ण संस्थान का हिस्सा है।", author: "श्रीमती रेखा मिश्रा", class: "4" }
 ];
 
+const testimonialsEnglish = [
+    { stars: 5, text: "An excellent school with dedicated teachers who truly care for every child.", author: "Mrs. Anita Sharma", class: "3" },
+    { stars: 5, text: "Being inside the PAC campus, there is no safety concern at all.", author: "Mr. Rakesh Verma", class: "5" },
+    { stars: 5, text: "Teachers are very friendly and teach with great patience and love.", author: "Mrs. Priya Singh", class: "Nursery" },
+    { stars: 5, text: "A perfect blend of discipline and quality education is visible here.", author: "Mr. Ajay Gupta", class: "8" },
+    { stars: 5, text: "Modern facilities and a very supportive learning environment for children.", author: "Mrs. Madhu Yadav", class: "4" },
+    { stars: 5, text: "My child's confidence has improved tremendously since joining PMS.", author: "Mr. Rajesh Maurya", class: "2" },
+    { stars: 5, text: "The admission process was very clear and the staff is very polite.", author: "Mrs. Seema Singh", class: "1" },
+    { stars: 5, text: "A great balance between sports and studies is maintained here.", author: "Mr. Pankaj Kumar", class: "6" },
+    { stars: 5, text: "The most trustworthy school in Raebareli for quality primary education.", author: "Mr. Amit Srivastava", class: "7" },
+    { stars: 5, text: "Child safety and quality education — both are excellent here.", author: "Mrs. Rita Devi", class: "3" },
+    { stars: 5, text: "Smart classes and modern teaching methods help children learn quickly.", author: "Mr. Vikas Pandey", class: "4" },
+    { stars: 5, text: "Regular PTMs keep us updated about our child's progress.", author: "Mrs. Sunita Maurya", class: "2" },
+    { stars: 5, text: "The school environment is very positive and motivating.", author: "Mr. Sanjay Mishra", class: "5" },
+    { stars: 5, text: "Experienced teachers guide children in the right direction.", author: "Mrs. Kavita Tripathi", class: "1" },
+    { stars: 5, text: "The school bus service is very safe and always on time.", author: "Mr. Dheeraj Yadav", class: "6" },
+    { stars: 5, text: "Both moral values and quality education are commendable here.", author: "Mrs. Manju Singh", class: "Nursery" },
+    { stars: 5, text: "Children go to school happily every day — that is the biggest achievement.", author: "Mr. Ravindra Singh", class: "3" },
+    { stars: 5, text: "Getting such great and safe education at an affordable fee is rare.", author: "Mrs. Deepa Gupta", class: "2" },
+    { stars: 5, text: "The school library and labs are very well organized.", author: "Mr. Anil Kumar", class: "8" },
+    { stars: 5, text: "Individual attention to each child is something I really appreciate.", author: "Mrs. Rachna Sharma", class: "5" },
+    { stars: 5, text: "The peaceful PAC campus greenery is very conducive to learning.", author: "Mr. Manoj Tiwari", class: "4" },
+    { stars: 5, text: "Annual events and cultural fests bring out the best talents in children.", author: "Mrs. Suman Devi", class: "7" },
+    { stars: 5, text: "Cleanliness and hygiene are given special attention here.", author: "Mr. Rahul Verma", class: "LKG" },
+    { stars: 5, text: "The school management is very active and supportive. Thank you.", author: "Mrs. Nutan Singh", class: "6" },
+    { stars: 5, text: "Teaching of moral values and ethics is the strongest aspect of PMS.", author: "Mr. Shiv Kumar", class: "1" },
+    { stars: 5, text: "Special focus on English speaking and personality development is great.", author: "Mrs. Priyanka Raj", class: "3" },
+    { stars: 5, text: "Inside the police campus, the atmosphere is completely safe for children.", author: "Mr. Ashok Kumar", class: "5" },
+    { stars: 5, text: "Digital learning has made studying very interesting for my child.", author: "Mrs. Sarita Yadav", class: "2" },
+    { stars: 5, text: "Teachers listen to children's problems patiently and solve them.", author: "Mr. Gyanendra Singh", class: "8" },
+    { stars: 5, text: "I am proud that my child is part of this dignified institution.", author: "Mrs. Rekha Mishra", class: "4" }
+];
+
 const galleryData = [
     { src: "/assets/images/gallery/1.jpg", alt: "Best school campus in Raebareli - Police Modern School" },
     { src: "/assets/images/gallery/2.jpg", alt: "Students classroom activity at Police Modern School Raebareli" },
@@ -129,6 +162,13 @@ function initGallerySlider() {
     const total = slides.length;
 
     if (total === 0) return;
+
+    // Remove skeleton
+    const skeleton = document.getElementById('gallery-skeleton');
+    if (skeleton) {
+        skeleton.style.opacity = '0';
+        setTimeout(() => skeleton.remove(), 500);
+    }
 
     function updateSlider() {
         slides.forEach((slide, index) => {
@@ -172,6 +212,13 @@ function initTestimonialCarousel() {
             <p class="text-gray-500 text-xs">${parentLabel} ${t.class}</p>
         </div>
     `).join('');
+
+    // Remove skeleton
+    const skeleton = document.getElementById('testimonial-skeleton');
+    if (skeleton) {
+        skeleton.style.opacity = '0';
+        setTimeout(() => skeleton.remove(), 500);
+    }
 
     const slides = container.querySelectorAll('.testimonial-slide');
     let currentSlide = 0;
@@ -228,8 +275,27 @@ function initContactForm() {
         e.preventDefault();
         const submitBtn = contactForm.querySelector('button[type="submit"]');
         const originalText = submitBtn.textContent;
+        const currentLang = document.documentElement.lang || 'hi';
+
+        const langStrings = {
+            en: {
+                sending: 'Sending...',
+                success: 'Thank you! Your message has been sent successfully.',
+                successAlt: 'Thank you! We will contact you soon.',
+                error: 'Something went wrong. Please try again.'
+            },
+            hi: {
+                sending: 'भेजा जा रहा है...',
+                success: 'धन्यवाद! संदेश सफलतापूर्वक भेज दिया गया है।',
+                successAlt: 'धन्यवाद! हम आपसे जल्द संपर्क करेंगे।',
+                error: 'कुछ गलत हो गया। कृपया पुनः प्रयास करें।'
+            }
+        };
+
+        const strings = langStrings[currentLang] || langStrings.hi;
+
         submitBtn.disabled = true;
-        submitBtn.textContent = 'भेजा जा रहा है...';
+        submitBtn.textContent = strings.sending;
 
         try {
             const formData = new FormData(contactForm);
@@ -245,15 +311,15 @@ function initContactForm() {
             if (typeof firestoreHelper !== 'undefined') {
                 const result = await firestoreHelper.addDocument('contacts', contactData);
                 if (result.success) {
-                    showNotification('धन्यवाद! संदेश सफलतापूर्वक भेज दिया गया है।', 'success');
+                    showNotification(strings.success, 'success');
                     contactForm.reset();
                 } else { throw new Error(result.error); }
             } else {
-                showNotification('धन्यवाद! हम आपसे जल्द संपर्क करेंगे।', 'success');
+                showNotification(strings.successAlt, 'success');
                 contactForm.reset();
             }
         } catch (error) {
-            showNotification('कुछ गलत हो गया। कृपया पुनः प्रयास करें।', 'error');
+            showNotification(strings.error, 'error');
         } finally {
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
