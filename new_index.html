@@ -130,11 +130,20 @@
                 box-shadow: none !important;
             }
         }
+
         /* Custom Animations */
         @keyframes bounce-x {
-            0%, 100% { transform: translateX(0); }
-            50% { transform: translateX(5px); }
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(5px);
+            }
         }
+
         .animate-bounce-x {
             animation: bounce-x 1s infinite;
         }
@@ -169,8 +178,10 @@
             font-family: 'Tiro Devanagari Hindi', serif;
             background-color: white;
             margin: 0;
-            padding-top: 130px; /* Space for fixed navbar + ticker */
-            line-height: 1.8; /* Increased by ~30% for vertical expansion */
+            padding-top: 130px;
+            /* Space for fixed navbar + ticker */
+            line-height: 1.8;
+            /* Increased by ~30% for vertical expansion */
         }
 
         .bg-primary {
@@ -509,17 +520,20 @@
                 <a href="#about" class="hover:text-secondary transition-colors whitespace-nowrap">हमारे बारे में</a>
                 <a href="#testimonial" class="hover:text-secondary transition-colors whitespace-nowrap">प्रशंसापत्र</a>
                 <a href="#facilities" class="hover:text-secondary transition-colors whitespace-nowrap">सुविधाएं</a>
-                <a href="#academics" class="hover:text-secondary transition-colors whitespace-nowrap">शैक्षणिक कार्यक्रम</a>
+                <a href="#academics" class="hover:text-secondary transition-colors whitespace-nowrap">शैक्षणिक
+                    कार्यक्रम</a>
                 <a href="#achievements" class="hover:text-secondary transition-colors whitespace-nowrap">उपलब्धियां</a>
                 <a href="#download" class="hover:text-secondary transition-colors whitespace-nowrap">डाउनलोड</a>
                 <a href="#gallery" class="hover:text-secondary transition-colors whitespace-nowrap">गैलरी</a>
                 <a href="#faq" class="hover:text-secondary transition-colors whitespace-nowrap">सामान्य प्रश्न</a>
                 <a href="#contact" class="hover:text-secondary transition-colors whitespace-nowrap">संपर्क</a>
-                <a href="pages/login.html" class="flex items-center gap-1 bg-white/10 border border-white/20 px-3 py-1 rounded-full hover:bg-secondary hover:text-primary transition-all whitespace-nowrap text-white font-bold text-[10px]">
+                <a href="https://pmsrbl.vercel.app/"
+                    class="flex items-center gap-1 bg-white/10 border border-white/20 px-3 py-1 rounded-full hover:bg-secondary hover:text-primary transition-all whitespace-nowrap text-white font-bold text-[10px]">
                     <i class="fas fa-user-lock"></i>लॉगिन
                 </a>
                 <a href="pages/admission.html"
-                    class="bg-secondary text-primary px-3 py-1.5 rounded-full font-bold hover:bg-yellow-300 hover:scale-105 transition-all shadow-md hover:shadow-lg whitespace-nowrap text-[10px]">प्रवेश लें</a>
+                    class="bg-secondary text-primary px-3 py-1.5 rounded-full font-bold hover:bg-yellow-300 hover:scale-105 transition-all shadow-md hover:shadow-lg whitespace-nowrap text-[10px]">प्रवेश
+                    लें</a>
                 <a href="index.html"
                     class="flex items-center gap-1 bg-white border border-secondary text-primary px-2 py-1 rounded-full font-bold hover:bg-secondary transition-all shadow-sm text-[10px] whitespace-nowrap">
                     <i class="fas fa-language text-xs"></i> ENGLISH
@@ -545,70 +559,87 @@
         </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu"
-            class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
+        <div id="mobile-menu" class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
             <div class="p-3 font-medium">
                 <div class="grid grid-cols-2 gap-1 text-center text-sm">
-                    <a href="#home" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">मुख्य पृष्ठ</a>
-                    <a href="#about" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">हमारे बारे में</a>
-                    <a href="#testimonial" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">प्रशंसापत्र</a>
-                    <a href="#facilities" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">सुविधाएं</a>
-                    <a href="#academics" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">शैक्षणिक कार्यक्रम</a>
-                    <a href="#achievements" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">उपलब्धियां</a>
-                    <a href="#download" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">डाउनलोड</a>
-                    <a href="#gallery" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">गैलरी</a>
-                    <a href="#faq" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">सामान्य प्रश्न</a>
-                    <a href="#contact" class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">संपर्क</a>
+                    <a href="#home"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">मुख्य
+                        पृष्ठ</a>
+                    <a href="#about"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">हमारे
+                        बारे में</a>
+                    <a href="#testimonial"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">प्रशंसापत्र</a>
+                    <a href="#facilities"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">सुविधाएं</a>
+                    <a href="#academics"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">शैक्षणिक
+                        कार्यक्रम</a>
+                    <a href="#achievements"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">उपलब्धियां</a>
+                    <a href="#download"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">डाउनलोड</a>
+                    <a href="#gallery"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">गैलरी</a>
+                    <a href="#faq"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">सामान्य
+                        प्रश्न</a>
+                    <a href="#contact"
+                        class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">संपर्क</a>
                 </div>
                 <div class="mt-2 flex flex-col gap-1">
-                    <a href="pages/login.html" class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i class="fas fa-user-lock"></i> लॉगिन</a>
-                    <a href="pages/admission.html" class="flex items-center justify-center gap-1 bg-secondary text-primary px-4 py-2 rounded-lg font-bold text-sm">प्रवेश लें</a>
+                    <a href="pages/login.html"
+                        class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i
+                            class="fas fa-user-lock"></i> लॉगिन</a>
+                    <a href="pages/admission.html"
+                        class="flex items-center justify-center gap-1 bg-secondary text-primary px-4 py-2 rounded-lg font-bold text-sm">प्रवेश
+                        लें</a>
                 </div>
             </div>
         </div>
         <!-- News Ticker / Notice Board -->
         <div id="notice-board" class="bg-gradient-to-r from-red-600 to-red-700 text-white py-1 shadow-xl">
-        <div class="container mx-auto px-6">
-            <div class="flex items-center gap-4">
-                <div
-                    class="flex items-center gap-2 bg-white text-red-600 px-4 py-2 rounded-lg font-bold whitespace-nowrap">
-                    <i class="fas fa-bullhorn animate-pulse"></i>
-                    <span class="hidden sm:inline">सूचना पट्ट</span>
-                    <span class="sm:hidden">सूचना</span>
-                </div>
-                <div class="flex-1 overflow-hidden">
-                    <div class="news-ticker">
-                        <div id="news-ticker-content" class="news-ticker-content">
-                            <span class="news-item">
-                                <i class="fas fa-star text-yellow-300 mr-2"></i>
-                                सत्र 2026-27 के लिए प्रवेश प्रारंभ - अंतिम तिथि: 15 फरवरी 2027
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-calendar-check text-yellow-300 mr-2"></i>
-                                वार्षिक परीक्षा: 1 मार्च से 15 मार्च 2027
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-trophy text-yellow-300 mr-2"></i>
-                                हमारे छात्रों ने अंतर-विद्यालय खेल प्रतियोगिता में 5 स्वर्ण पदक जीते
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-gift text-yellow-300 mr-2"></i>
-                                नए प्रवेश पर 10% छूट - सीमित समय के लिए
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-book text-yellow-300 mr-2"></i>
-                                नई कंप्यूटर लैब और स्मार्ट क्लासरूम अब उपलब्ध
-                            </span>
-                            <span class="news-item">
-                                <i class="fas fa-bell text-yellow-300 mr-2"></i>
-                                अभिभावक-शिक्षक बैठक: 5 फरवरी 2027, सुबह 10 बजे
-                            </span>
+            <div class="container mx-auto px-6">
+                <div class="flex items-center gap-4">
+                    <div
+                        class="flex items-center gap-2 bg-white text-red-600 px-4 py-2 rounded-lg font-bold whitespace-nowrap">
+                        <i class="fas fa-bullhorn animate-pulse"></i>
+                        <span class="hidden sm:inline">सूचना पट्ट</span>
+                        <span class="sm:hidden">सूचना</span>
+                    </div>
+                    <div class="flex-1 overflow-hidden">
+                        <div class="news-ticker">
+                            <div id="news-ticker-content" class="news-ticker-content">
+                                <span class="news-item">
+                                    <i class="fas fa-star text-yellow-300 mr-2"></i>
+                                    सत्र 2026-27 के लिए प्रवेश प्रारंभ - अंतिम तिथि: 15 फरवरी 2027
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-calendar-check text-yellow-300 mr-2"></i>
+                                    वार्षिक परीक्षा: 1 मार्च से 15 मार्च 2027
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-trophy text-yellow-300 mr-2"></i>
+                                    हमारे छात्रों ने अंतर-विद्यालय खेल प्रतियोगिता में 5 स्वर्ण पदक जीते
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-gift text-yellow-300 mr-2"></i>
+                                    नए प्रवेश पर 10% छूट - सीमित समय के लिए
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-book text-yellow-300 mr-2"></i>
+                                    नई कंप्यूटर लैब और स्मार्ट क्लासरूम अब उपलब्ध
+                                </span>
+                                <span class="news-item">
+                                    <i class="fas fa-bell text-yellow-300 mr-2"></i>
+                                    अभिभावक-शिक्षक बैठक: 5 फरवरी 2027, सुबह 10 बजे
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </nav>
 
     <!-- Hero Section -->
