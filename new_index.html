@@ -306,15 +306,20 @@
 
         /* Mobile menu transition */
         #mobile-menu {
-            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+            transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
             max-height: 0;
             opacity: 0;
+            visibility: hidden;
             overflow: hidden;
+            pointer-events: none;
         }
 
         #mobile-menu.open {
-            max-height: 500px;
+            max-height: 85vh;
             opacity: 1;
+            visibility: visible;
+            overflow-y: auto;
+            pointer-events: auto;
         }
 
         .gallery-img {
@@ -556,10 +561,9 @@
                 <i class="fas fa-language text-sm"></i> हिन्दी
             </a>
         </div>
-        </div>
 
         <!-- Mobile Menu Dropdown -->
-        <div id="mobile-menu" class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50">
+        <div id="mobile-menu" class="absolute top-full right-4 w-64 bg-white text-gray-800 shadow-xl rounded-xl z-50 lg:hidden">
             <div class="p-3 font-medium">
                 <div class="grid grid-cols-2 gap-1 text-center text-sm">
                     <a href="#home"
@@ -588,7 +592,7 @@
                         class="hover:text-primary hover:bg-gray-50 py-2 px-1 rounded-lg border border-gray-100">संपर्क</a>
                 </div>
                 <div class="mt-2 flex flex-col gap-1">
-                    <a href="pages/login.html"
+                    <a href="https://pmsrbl.vercel.app/"
                         class="flex items-center justify-center gap-1 bg-primary text-white px-4 py-2 rounded-lg font-bold text-sm"><i
                             class="fas fa-user-lock"></i> लॉगिन</a>
                     <a href="pages/admission.html"
@@ -1403,34 +1407,51 @@
         const navbar = document.getElementById('navbar');
         const mobileMenuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
-        const links = document.querySelectorAll('a[href^="#"]');
-
-        // Scroll Effect
-        // Scroll Effect removed to keep header consistent
-        // window.addEventListener('scroll', () => { ... });
 
         // Mobile Menu Toggle
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open');
-            const icon = mobileMenuBtn.querySelector('i');
-            if (mobileMenu.classList.contains('open')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-            } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-            }
-        });
-
-        // Close mobile menu when clicking on a link (smooth scroll handled by main.js)
-        links.forEach(link => {
-            link.addEventListener('click', function () {
-                mobileMenu.classList.remove('open');
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                mobileMenu.classList.toggle('open');
                 const icon = mobileMenuBtn.querySelector('i');
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                if (icon) {
+                    if (mobileMenu.classList.contains('open')) {
+                        icon.classList.remove('fa-bars');
+                        icon.classList.add('fa-times');
+                    } else {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
             });
-        });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    if (mobileMenu.classList.contains('open')) {
+                        mobileMenu.classList.remove('open');
+                        const icon = mobileMenuBtn.querySelector('i');
+                        if (icon) {
+                            icon.classList.remove('fa-times');
+                            icon.classList.add('fa-bars');
+                        }
+                    }
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            const menuLinks = mobileMenu.querySelectorAll('a');
+            menuLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    mobileMenu.classList.remove('open');
+                    const icon = mobileMenuBtn.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                });
+            });
+        }
 
 
     </script>
